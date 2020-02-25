@@ -4,5 +4,14 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Wallet.Application\Wallet.Application.csproj" />
+      <ProjectReference Include="..\Wallet.Infrastructure\Wallet.Infrastructure.csproj" />
+    </ItemGroup>
+
 
 </Project>
