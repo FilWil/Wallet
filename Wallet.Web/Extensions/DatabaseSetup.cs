@@ -4,7 +4,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Wallet.Infrastructure.Data.Context;
 
-namespace Wallet.Web.Configurations
+namespace Wallet.Web.Extensions
 {
     public static class DatabaseSetup
     {
