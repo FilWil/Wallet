@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Wallet.Domain.Core\Wallet.Domain.Core.csproj" />
+  </ItemGroup>
+
 </Project>

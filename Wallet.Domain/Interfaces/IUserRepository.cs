@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Wallet.Domain.Entities;
+﻿using Wallet.Domain.Entities;
 
 namespace Wallet.Domain.Interfaces
 {

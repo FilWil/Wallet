@@ -1,4 +1,4 @@
-﻿namespace Wallet.Domain.Core.Entities
+﻿namespace Wallet.Domain.Core.Models
 {
     public abstract class BaseEntity
     {
