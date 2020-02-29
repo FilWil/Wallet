@@ -32,11 +32,10 @@ namespace Wallet.Infrastructure.Data.Context
                 .AddJsonFile($"appsettings.{environment}.json", optional: true)
                 .Build();
 
-            //const string connectionString = "Server=(localdb)\\mssqllocaldb;Database=Wallet;Trusted_Connection=True;MultipleActiveResultSets=true";
             var connectionString = configuration.GetConnectionString("DatabaseConnection");
-            
+
             builder.UseSqlServer(connectionString);
-            
+
             return new WalletDbContext(builder.Options);
         }
     }
