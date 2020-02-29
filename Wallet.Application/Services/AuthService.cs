@@ -9,12 +9,12 @@ using Wallet.Application.Models;
 
 namespace Wallet.Application.Services
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AuthService : IAuthService
     {
         private string TokenSecret { get; }
         private int TokenLifespan { get; }
         
-        public AuthenticationService(string tokenSecret, int tokenLifespan)
+        public AuthService(string tokenSecret, int tokenLifespan)
         {
             TokenSecret = tokenSecret;
             TokenLifespan = tokenLifespan;

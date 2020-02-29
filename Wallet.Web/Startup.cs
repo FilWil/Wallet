@@ -4,23 +4,25 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Wallet.Web.Extensions;
+using Wallet.Infrastructure.IoC;
+using Wallet.Web.Configurations;
 
 namespace Wallet.Web
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDatabaseSetup(Configuration);
+            
+            services.AddIdentitySetup(Configuration);
 
             services.AddControllersWithViews();
 
@@ -29,6 +31,8 @@ namespace Wallet.Web
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddDependencyInjectionSetup();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

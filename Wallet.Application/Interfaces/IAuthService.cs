@@ -2,7 +2,7 @@
 
 namespace Wallet.Application.Interfaces
 {
-    public interface IAuthenticationService
+    public interface IAuthService
     {
         AuthenticationData GetAuthenticationData(string userId);        
         string HashPassword(string password);
