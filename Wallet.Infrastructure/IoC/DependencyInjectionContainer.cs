@@ -2,6 +2,7 @@
 using Wallet.Application.Interfaces;
 using Wallet.Application.Services;
 using Wallet.Domain.Interfaces;
+using Wallet.Infrastructure.Data.Context;
 using Wallet.Infrastructure.Data.Repositories;
 
 namespace Wallet.Infrastructure.IoC
