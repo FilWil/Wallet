@@ -6,6 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MediatR;
 using Wallet.Web.Configurations;
+using Wallet.Application.AutoMapper;
+using Wallet.Application.Features.Users.Commands.RegisterUser;
+using System.Reflection;
 
 namespace Wallet.Web
 {
@@ -20,11 +23,11 @@ namespace Wallet.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDatabaseSetup(Configuration);
-            
-            services.AddIdentitySetup(Configuration);
+            services.AddMediatR(typeof(RegisterUser).GetTypeInfo().Assembly);
 
-            services.AddMediatR(typeof(Startup));
+            services.AddDatabaseSetup(Configuration);
+
+            services.AddIdentitySetup(Configuration);
 
             services.AddControllersWithViews();
 
@@ -35,6 +38,8 @@ namespace Wallet.Web
             });
 
             services.AddDependencyInjectionSetup();
+
+            AutoMapperConfiguration.BuildMapper(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

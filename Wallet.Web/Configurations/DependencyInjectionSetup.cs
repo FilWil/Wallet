@@ -9,7 +9,7 @@ namespace Wallet.Web.Configurations
         public static void AddDependencyInjectionSetup(this IServiceCollection services)
         {
             if (services is null) throw new ArgumentException(nameof(services));
-            
+
             DependencyInjectionContainer.RegisterServices(services);
         }
     }
