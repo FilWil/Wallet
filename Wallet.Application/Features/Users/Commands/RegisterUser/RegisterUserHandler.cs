@@ -37,8 +37,8 @@ namespace Wallet.Application.Features.Users.Commands.RegisterUser
             {
                 Id = Guid.NewGuid().ToString(),
                 Email = request.Email,
-                Password = request.Password,
-                Username = request.Username
+                Username = request.Username,
+                Password = AuthService.HashPassword(request.Password)
             };
 
             UserRepository.Add(newUser);
