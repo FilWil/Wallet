@@ -17,26 +17,4 @@ namespace Wallet.Infrastructure.Data.Context
 
         }
     }
-
-    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<WalletDbContext>
-    {
-        public WalletDbContext CreateDbContext(string[] args)
-        {
-            var builder = new DbContextOptionsBuilder<WalletDbContext>();
-
-            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false)
-                .AddJsonFile($"appsettings.{environment}.json", optional: true)
-                .Build();
-
-            var connectionString = configuration.GetConnectionString("DatabaseConnection");
-
-            builder.UseSqlServer(connectionString);
-
-            return new WalletDbContext(builder.Options);
-        }
-    }
 }
