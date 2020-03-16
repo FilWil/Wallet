@@ -1,22 +1,26 @@
-import * as WeatherForecasts from './WeatherForecasts';
-import * as Counter from './Counter';
+import { reducer as AuthReducer } from './auth';
+import { RouterState } from "connected-react-router";
+import { configureStore } from './configureStore';
+import { createRootReducer } from './rootReducer';
 
 // The top-level state object
 export interface ApplicationState {
-    counter: Counter.CounterState | undefined;
-    weatherForecasts: WeatherForecasts.WeatherForecastsState | undefined;
+    readonly router: RouterState;
+    readonly auth: ReturnType<typeof AuthReducer>;
 }
 
-// Whenever an action is dispatched, Redux will update each top-level application state property using
-// the reducer with the matching name. It's important that the names match exactly, and that the reducer
-// acts on the corresponding ApplicationState property type.
-export const reducers = {
-    counter: Counter.reducer,
-    weatherForecasts: WeatherForecasts.reducer
-};
+// Type for all redux actions - takes the action type and then an optional, variable amount of additional key-value pairs
+export type ReduxAction = { readonly type: string; } & { [key: string]: any; };
 
 // This type can be used as a hint on action creators so that its 'dispatch' and 'getState' params are
 // correctly typed to match your store.
 export interface AppThunkAction<TAction> {
     (dispatch: (action: TAction) => void, getState: () => ApplicationState): void;
 }
+
+export type FunctionReturnTypes<T> = { [K in keyof T]: T[K] extends (...args: any[]) => any ? ReturnType<T[K]> : never }[keyof T];
+
+export {
+    configureStore,
+    createRootReducer,
+};

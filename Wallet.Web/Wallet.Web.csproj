@@ -22,6 +22,12 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <None Include="ClientApp\src\containers\Login\child-components\index.ts" />
+    <None Include="ClientApp\src\containers\Login\child-components\LoginControls.tsx" />
+    <None Include="ClientApp\src\containers\Login\child-components\PasswordInput.tsx" />
+    <None Include="ClientApp\src\containers\Login\child-components\UsernameInput.tsx" />
+    <None Include="ClientApp\src\containers\Login\index.ts" />
+    <None Include="ClientApp\src\containers\Login\Login.tsx" />
   </ItemGroup>
 
   <ItemGroup>
