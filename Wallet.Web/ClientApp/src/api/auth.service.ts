@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { BaseService } from "./base.service";
-import { IAuthUser, ICredentials } from "../store/auth/types";
+import { IAuthData, ICredentials } from "../store/auth/types";
 
 /**
  * Auth API abstraction layer communication via Axios (typescript singleton pattern)
@@ -20,8 +20,8 @@ class AuthService extends BaseService {
         return await this.$http.post("Logout");
     }
 
-    public async loginAsync(credentials: ICredentials): Promise<IAuthUser> {
-        const { data } = await this.$http.post<IAuthUser>("Login", credentials);
+    public async loginAsync(credentials: ICredentials): Promise<IAuthData> {
+        const { data } = await this.$http.post<IAuthData>("Login", credentials);
         return data;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Wallet.Domain.Core.Models;
+﻿
+using Wallet.Domain.Core.Models;
 
 namespace Wallet.Domain.Entities
 {

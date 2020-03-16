@@ -6,7 +6,7 @@ import { ApplicationState } from "../../store";
 import { toast, ToastId } from "react-toastify";
 import { Authenticator } from "../../components";
 import { RoutesConfig } from "../../config/routes.config";
-import { UsernameInput, PasswordInput, LoginControls } from "./child-components";
+import { EmailInput, PasswordInput } from "./child-components";
 import { actionCreators, AuthStatusEnum, reducer } from "../../store/auth";
 import { useTextInput } from "../../hooks/useTextInput";
 import { useToggle } from "../../hooks/useToggle";
@@ -26,10 +26,9 @@ const Login: React.FC<LoginProps> = ({
                                      }) => {
     const toastIdRef = useRef<ToastId>('');
     const [showPassword, toggleShowPassword] = useToggle(false);
-    const [rememberMe, setRememberMe] = useState<boolean>(false);
     const [isInputInvalid, setIsInputInvalid] = useState<boolean>(false);
 
-    const usernameInput = useTextInput('');
+    const emailInput = useTextInput('');
     const passwordInput = useTextInput('', showPassword ? 'text' : 'password');
 
     const onFailedAuth = useCallback((): void => {
@@ -37,7 +36,6 @@ const Login: React.FC<LoginProps> = ({
         setAuthStatus(AuthStatusEnum.NONE);
     }, [resetState, setAuthStatus]);
 
-    const onRememberMeCheck = useCallback((checked: boolean): void => setRememberMe(checked), []);
     const onSuccessfulAuth = useCallback((): void => history.push(RoutesConfig.Dashboard.path), [history]);
 
     const handleLogin = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -46,7 +44,7 @@ const Login: React.FC<LoginProps> = ({
             return;
         }
 
-        if (!usernameInput.hasValue || !passwordInput.hasValue) {
+        if (!emailInput.hasValue || !passwordInput.hasValue) {
             // Run invalidInputs error and display toast notification (if one is not already active)
             setIsInputInvalid(true);
             if (!toast.isActive(toastIdRef.current)) {
@@ -63,8 +61,7 @@ const Login: React.FC<LoginProps> = ({
 
             setTimeout(() => {
                 loginUserRequest({
-                    rememberMe,
-                    username: usernameInput.value,
+                    email: emailInput.value,
                     password: passwordInput.value
                 });
             }, 2250);
@@ -85,8 +82,8 @@ const Login: React.FC<LoginProps> = ({
                                 src={MoneyLogo}
                                 alt="money-logo"
                             />
-                            <UsernameInput
-                                textInput={usernameInput}
+                            <EmailInput
+                                textInput={emailInput}
                                 isInputInvalid={isInputInvalid}
                             />
                             <PasswordInput
@@ -94,10 +91,6 @@ const Login: React.FC<LoginProps> = ({
                                 showPassword={showPassword}
                                 isInputInvalid={isInputInvalid}
                                 toggleShowPassword={toggleShowPassword}
-                            />
-                            <LoginControls
-                                rememberMe={rememberMe}
-                                handleRememberMeCheck={onRememberMeCheck}
                             />
                         </form>
                         <Authenticator

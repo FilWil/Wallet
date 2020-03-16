@@ -3,12 +3,12 @@ import { TextInput } from "../../../hooks";
 import { createClassName } from "../../../utils";
 import { FontAwesomeIconMemo } from "../../../components";
 
-type UsernameInputProps = {
+type EmailInputProps = {
     readonly textInput: TextInput;
     readonly isInputInvalid: boolean;
 };
 
-const UsernameInput = React.memo<UsernameInputProps>(({ textInput, isInputInvalid }) => {
+const EmailInput = React.memo<EmailInputProps>(({ textInput, isInputInvalid }) => {
     const { hasValue, bindToInput } = textInput;
 
     const className = createClassName([
@@ -24,7 +24,7 @@ const UsernameInput = React.memo<UsernameInputProps>(({ textInput, isInputInvali
                     autoFocus
                     {...bindToInput}
                     className={className}
-                    placeholder="Username"
+                    placeholder="Email"
                 />
                 <span className="icon is-left">
           <FontAwesomeIconMemo icon="user" />
@@ -34,6 +34,6 @@ const UsernameInput = React.memo<UsernameInputProps>(({ textInput, isInputInvali
     );
 });
 
-UsernameInput.displayName = 'UsernameInput';
+EmailInput.displayName = 'EmailInput';
 
-export default UsernameInput;
+export default EmailInput;

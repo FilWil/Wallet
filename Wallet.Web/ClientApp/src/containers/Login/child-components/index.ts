@@ -1,9 +1,9 @@
-﻿import UsernameInput from "./UsernameInput";
+﻿import EmailInput from "./Emailnput";
 import PasswordInput from "./PasswordInput";
 import LoginControls from "./LoginControls";
 
 export {
-    UsernameInput,
+    EmailInput,
     PasswordInput,
     LoginControls,
 };

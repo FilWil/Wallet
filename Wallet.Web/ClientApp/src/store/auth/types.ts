@@ -10,22 +10,18 @@ export interface IActionType {
 export type AuthStatus = "none" | "process" | "success" | "fail";
 
 export type ICredentials = {
-    userName?: string;
+    email?: string;
     password?: string;
-    rememberMe?: boolean;
 };
 
-export type IAuthUser = {
+export type IAuthData = {
     token?: string;
-    userName?: string;
-    status?: AuthStatus;
+    tokenExpirationTime?: number;
 };
 
 export type IAuthState = {
-    readonly isAuthenticated: boolean;
     readonly token?: string;
-    readonly userName?: string;
-    readonly status?: AuthStatus;
+    readonly tokenExpirationTime?: number;
 };
 
 const _namespace = 'auth';
