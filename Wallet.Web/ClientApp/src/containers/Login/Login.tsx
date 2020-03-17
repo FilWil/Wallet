@@ -6,7 +6,7 @@ import { ApplicationState } from "../../store";
 import { toast, ToastId } from "react-toastify";
 import { Authenticator } from "../../components";
 import { RoutesConfig } from "../../config/routes.config";
-import { EmailInput, PasswordInput } from "./child-components";
+import {EmailInput, LoginControls, PasswordInput} from "./child-components";
 import { actionCreators, AuthStatusEnum, reducer } from "../../store/auth";
 import { useTextInput } from "../../hooks/useTextInput";
 import { useToggle } from "../../hooks/useToggle";
@@ -92,6 +92,7 @@ const Login: React.FC<LoginProps> = ({
                                 isInputInvalid={isInputInvalid}
                                 toggleShowPassword={toggleShowPassword}
                             />
+                            <LoginControls/>
                         </form>
                         <Authenticator
                             authStatus={status}

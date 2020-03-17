@@ -27,7 +27,7 @@ const EmailInput = React.memo<EmailInputProps>(({ textInput, isInputInvalid }) =
                     placeholder="Email"
                 />
                 <span className="icon is-left">
-          <FontAwesomeIconMemo icon="user" />
+          <FontAwesomeIconMemo icon="envelope" />
         </span>
             </div>
         </div>

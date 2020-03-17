@@ -14,7 +14,8 @@ import {
     faPlus,
     faSignInAlt,
     faSignOutAlt,
-    faUser
+    faUser,
+    faEnvelope
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -41,5 +42,6 @@ library.add(
     faUser,
     faGithub,
     faMediumM,
-    faTwitter
+    faTwitter,
+    faEnvelope
 );

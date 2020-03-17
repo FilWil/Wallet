@@ -9,7 +9,7 @@ export abstract class BaseService {
     protected constructor(controllerName: string, requestTimeout: number = 50000) {
         this.$http = axios.create({
             timeout: requestTimeout,
-            baseURL: `http://localhost::44340/api/${controllerName}/`
+            baseURL: `https://localhost:44340/api/${controllerName}/`
         });
     }
 }

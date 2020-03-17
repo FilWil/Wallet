@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { FontAwesomeIconMemo } from "../../../components";
+import '../../../assets/style/scss/components/login-controls.scss'
 
 type LoginControlsProps = {
 
@@ -13,6 +14,9 @@ const LoginControls = React.memo<LoginControlsProps>(() => (
         <FontAwesomeIconMemo icon="sign-in-alt" />
       </span>
         </button>
+        <div className="register-container">
+            <a className="register-container__link">Don't have an account? Register</a>
+        </div>
     </Fragment>
 ));
 
