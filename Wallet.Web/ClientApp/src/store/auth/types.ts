@@ -22,6 +22,7 @@ export type IAuthData = {
 export type IAuthState = {
     readonly token?: string;
     readonly tokenExpirationTime?: number;
+    readonly isLogin: boolean;
 };
 
 const _namespace = 'auth';

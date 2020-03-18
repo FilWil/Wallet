@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useCallback, useState, useRef } from "react";
+import React, { useEffect, useCallback, useState, useRef } from "react";
 import { History } from "history";
 import { connect } from "react-redux";
 import { renderToastifyMsg } from "../../utils";
@@ -6,31 +6,31 @@ import { ApplicationState } from "../../store";
 import { toast, ToastId } from "react-toastify";
 import { Authenticator } from "../../components";
 import { RoutesConfig } from "../../config/routes.config";
-import {EmailInput, LoginControls, PasswordInput} from "./child-components";
+import {EmailInput, PasswordInput, RegisterControls} from "./child-components";
 import { actionCreators, AuthStatusEnum, reducer } from "../../store/auth";
 import { useTextInput } from "../../hooks/useTextInput";
 import { useToggle } from "../../hooks/useToggle";
-import Register from "./Register";
+import UsernameInput from "./child-components/UsernameInput";
 
 const MoneyLogo = require("../../assets/image/money-logo.png") as string;
 
-type LoginProps = ReturnType<typeof reducer>
+type RegisterProps = ReturnType<typeof reducer>
     & typeof actionCreators
     & { readonly history: History };
 
-const Login: React.FC<LoginProps> = ({
+const Register: React.FC<RegisterProps> = ({
                                          status,
                                          history,
                                          resetState,
                                          setAuthStatus,
-                                         loginUserRequest
+                                         loginUserRequest: registerUserRequest
                                      }) => {
     const toastIdRef = useRef<ToastId>('');
     const [showPassword, toggleShowPassword] = useToggle(false);
     const [isInputInvalid, setIsInputInvalid] = useState<boolean>(false);
-    const [isLogin] = useState<boolean>(true);
 
     const emailInput = useTextInput('');
+    const usernameInput = useTextInput('');
     const passwordInput = useTextInput('', showPassword ? 'text' : 'password');
 
     const onFailedAuth = useCallback((): void => {
@@ -40,18 +40,18 @@ const Login: React.FC<LoginProps> = ({
 
     const onSuccessfulAuth = useCallback((): void => history.push(RoutesConfig.Dashboard.path), [history]);
 
-    const handleLogin = (e: React.FormEvent<HTMLFormElement>): void => {
+    const handleRegister = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         if (status === AuthStatusEnum.PROCESS) {
             return;
         }
 
-        if (!emailInput.hasValue || !passwordInput.hasValue) {
+        if (!emailInput.hasValue || !passwordInput.hasValue || !usernameInput.hasValue) {
             // Run invalidInputs error and display toast notification (if one is not already active)
             setIsInputInvalid(true);
             if (!toast.isActive(toastIdRef.current)) {
                 toastIdRef.current = toast.error(
-                    renderToastifyMsg('Enter email/password',
+                    renderToastifyMsg('Enter all new account details',
                         'exclamation-triangle')
                 );
             }
@@ -62,8 +62,9 @@ const Login: React.FC<LoginProps> = ({
             setAuthStatus(AuthStatusEnum.PROCESS);
 
             setTimeout(() => {
-                loginUserRequest({
+                registerUserRequest({
                     email: emailInput.value,
+                    username: usernameInput.value,
                     password: passwordInput.value
                 });
             }, 2250);
@@ -71,13 +72,13 @@ const Login: React.FC<LoginProps> = ({
     };
 
     return (
-        <section >
+        <section className="section section-login">
             <div className="container has-text-centered">
                 <div className="column is-4 is-offset-4">
-                    <h3 className="title">Login</h3>
-                    <p className="subtitle">Please login to proceed</p>
+                    <h3 className="title">Register</h3>
+                    <p className="subtitle">Please fill below details to proceed</p>
                     <div className="box login-box">
-                        <form onSubmit={handleLogin}>
+                        <form onSubmit={handleRegister}>
                             <img
                                 width="175"
                                 id="login-img"
@@ -88,13 +89,17 @@ const Login: React.FC<LoginProps> = ({
                                 textInput={emailInput}
                                 isInputInvalid={isInputInvalid}
                             />
+                            <UsernameInput
+                                textInput={emailInput}
+                                isInputInvalid={isInputInvalid}
+                            />
                             <PasswordInput
                                 textInput={passwordInput}
                                 showPassword={showPassword}
                                 isInputInvalid={isInputInvalid}
                                 toggleShowPassword={toggleShowPassword}
                             />
-                            <LoginControls/>
+                            <RegisterControls/>
                         </form>
                         <Authenticator
                             authStatus={status}
@@ -112,4 +117,4 @@ const mapStateToProps = (state: ApplicationState) => ({
     status: state.auth.status
 });
 
-export default connect(mapStateToProps, actionCreators)(Login);
+export default connect(mapStateToProps, actionCreators)(Register);

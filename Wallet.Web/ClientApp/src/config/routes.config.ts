@@ -15,7 +15,13 @@ export const RoutesConfig = Object.freeze<RoutesConfig>({
     Login: {
         path: '/',
         showInNav: false,
-        displayName: 'Logout',
+        displayName: 'Login',
         icon: 'sign-out-alt',
     },
+    Register: {
+        path: '/register',
+        showInNav: true,
+        displayName: 'Register',
+        icon: 'sign-out-alt',
+    }
 });

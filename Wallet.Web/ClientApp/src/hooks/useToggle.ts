@@ -7,3 +7,4 @@ export const useToggle = (initialState: boolean = false): [boolean, (() => void)
 
     return [state, toggle];
 };
+

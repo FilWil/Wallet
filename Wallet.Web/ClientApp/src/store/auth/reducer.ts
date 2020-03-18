@@ -5,6 +5,7 @@ import { ActionType, IAuthState } from "./types";
 const initialState = Object.freeze<IAuthState>({
     token: '',
     tokenExpirationTime: 0,
+    isLogin: true,
 });
 
 export const reducer = (
