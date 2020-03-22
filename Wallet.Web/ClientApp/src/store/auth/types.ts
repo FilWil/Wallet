@@ -14,15 +14,27 @@ export type ICredentials = {
     password?: string;
 };
 
+export type IRegisterData = {
+    email?: string;
+    username?: string;
+    password?: string;
+}
+
 export type IAuthData = {
     token?: string;
     tokenExpirationTime?: number;
+    isAuthenticated?: boolean;
 };
+
+export type IRegisteredUser = {
+    username?: string;
+    email?: string;
+}
 
 export type IAuthState = {
     readonly token?: string;
     readonly tokenExpirationTime?: number;
-    readonly isLogin: boolean;
+    readonly isAuthenticated?: boolean;
 };
 
 const _namespace = 'auth';

@@ -8,7 +8,9 @@ html,
 body {
   background-color: $color-body-bg;
 }
-
+.login-box__logo {
+  padding-bottom: 20px;
+}
 .box {
   padding: 1.75rem;
   border-radius: 0.25rem;
@@ -26,7 +28,6 @@ body {
 
 #login-img {
   opacity: 0.9;
-  padding-bottom: 0.75rem;
 }
 
 .section {

@@ -1,0 +1,97 @@
+.navbar {
+  width: 100%;
+  height: 66px;
+  background-color: $color-nav-bar;
+  padding-left: 7rem;
+  padding-right: 7rem;
+
+  @include reduceNavBarPadding {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  @include removeNavBarPadding {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .navbar-wrapper {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    animation-delay: 0.25s;
+    animation: fadeInNavbar 0.25s both ease;
+
+    &__logo-text {
+      padding-left: 15px;
+      font-size: 20px;
+      color: white;
+    }
+
+    .brand-wrapper {
+      display: flex;
+      align-items: center;
+      width: 46%;
+      margin: auto;
+
+      @include renderMobileNavView {
+        margin-right: 0.25rem;
+      }
+    }
+
+    .navbar-routes {
+      font-size: 1.25rem;
+      height: 100%;
+      display: flex;
+      justify-content: flex-end;
+      margin: auto;
+      width: 54%;
+      align-items: center;
+
+      .navbar-item {
+        color: white;
+        font-weight: 600;
+        background-color: transparent;
+        transition: color 0.2s ease-out, border-bottom-color 0.2s ease-out;
+        border-bottom: 2.5px solid transparent;
+        border-top: 2.5px solid transparent;
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        height: 100%;
+
+        @include renderMobileNavView {
+          font-size: 0.95rem;
+          padding: 0.75rem 0.2rem 0.75rem 0.2rem;
+        }
+
+        &:not(:first-child) {
+          margin-left: 1.25rem;
+
+          @include renderMobileNavView {
+            margin-left: 0;
+          }
+        }
+
+        &:hover {
+          color: $color-blue-highlight;
+          background-color: transparent;
+        }
+
+        &.is-active {
+          color: $color-blue-highlight !important;
+          border-bottom-color: $color-blue-highlight !important;
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeInNavbar {
+  from {
+    opacity: 0;
+  } to {
+      opacity: 1;
+    }
+}

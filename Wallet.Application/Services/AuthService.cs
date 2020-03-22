@@ -43,6 +43,7 @@ namespace Wallet.Application.Services
             {
                 Id = userId,
                 Token = token,
+                IsAuthenticated = true,
                 TokenExpirationTime = ((DateTimeOffset) tokenExpirationTime).ToUnixTimeSeconds()
             };
         }

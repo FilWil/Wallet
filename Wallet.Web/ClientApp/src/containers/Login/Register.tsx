@@ -1,10 +1,9 @@
-import React, { useEffect, useCallback, useState, useRef } from "react";
+import React, {  useCallback, useState, useRef } from "react";
 import { History } from "history";
 import { connect } from "react-redux";
 import { renderToastifyMsg } from "../../utils";
 import { ApplicationState } from "../../store";
 import { toast, ToastId } from "react-toastify";
-import { Authenticator } from "../../components";
 import { RoutesConfig } from "../../config/routes.config";
 import {EmailInput, PasswordInput, RegisterControls} from "./child-components";
 import { actionCreators, AuthStatusEnum, reducer } from "../../store/auth";
@@ -12,18 +11,17 @@ import { useTextInput } from "../../hooks/useTextInput";
 import { useToggle } from "../../hooks/useToggle";
 import UsernameInput from "./child-components/UsernameInput";
 
-const MoneyLogo = require("../../assets/image/money-logo.png") as string;
+const MoneyLogo = require("../../assets/image/wallet-icon.png") as string;
 
 type RegisterProps = ReturnType<typeof reducer>
     & typeof actionCreators
     & { readonly history: History };
 
 const Register: React.FC<RegisterProps> = ({
-                                         status,
                                          history,
                                          resetState,
                                          setAuthStatus,
-                                         loginUserRequest: registerUserRequest
+                                         registerUserRequest
                                      }) => {
     const toastIdRef = useRef<ToastId>('');
     const [showPassword, toggleShowPassword] = useToggle(false);
@@ -42,9 +40,6 @@ const Register: React.FC<RegisterProps> = ({
 
     const handleRegister = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        if (status === AuthStatusEnum.PROCESS) {
-            return;
-        }
 
         if (!emailInput.hasValue || !passwordInput.hasValue || !usernameInput.hasValue) {
             // Run invalidInputs error and display toast notification (if one is not already active)
@@ -82,6 +77,7 @@ const Register: React.FC<RegisterProps> = ({
                             <img
                                 width="175"
                                 id="login-img"
+                                className='login-box__logo'
                                 src={MoneyLogo}
                                 alt="money-logo"
                             />
@@ -90,7 +86,7 @@ const Register: React.FC<RegisterProps> = ({
                                 isInputInvalid={isInputInvalid}
                             />
                             <UsernameInput
-                                textInput={emailInput}
+                                textInput={usernameInput}
                                 isInputInvalid={isInputInvalid}
                             />
                             <PasswordInput
@@ -101,11 +97,6 @@ const Register: React.FC<RegisterProps> = ({
                             />
                             <RegisterControls/>
                         </form>
-                        <Authenticator
-                            authStatus={status}
-                            handleOnFail={onFailedAuth}
-                            handleOnSuccess={onSuccessfulAuth}
-                        />
                     </div>
                 </div>
             </div>
@@ -114,7 +105,6 @@ const Register: React.FC<RegisterProps> = ({
 };
 
 const mapStateToProps = (state: ApplicationState) => ({
-    status: state.auth.status
 });
 
 export default connect(mapStateToProps, actionCreators)(Register);

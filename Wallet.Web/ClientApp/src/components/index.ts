@@ -1,9 +1,11 @@
-import Authenticator from './Authenticator';
 import Checkbox from './Checkbox';
+import Navbar from './Navbar'
 import FontAwesomeIconMemo from './FontAwesomeIconMemo';
+import Authenticator from "./Authenticator";
 
 export {
-    Authenticator,
     FontAwesomeIconMemo,
-    Checkbox
+    Checkbox,
+    Navbar,
+    Authenticator
 };

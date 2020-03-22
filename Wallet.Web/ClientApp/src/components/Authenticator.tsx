@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { CallbackFunction } from '../types';
 import styled, { keyframes } from 'styled-components';
-
 import { AuthStatusEnum, AuthStatus } from '../store/auth';
+import {ApplicationState} from "../store";
+import { connect } from 'react-redux';
 
 type AuthenticatorWrapperProps = {
-    readonly authStatus?: AuthStatus;
+  readonly isAuthenticated?: boolean;
 };
 
 type AuthenticatorProps = {
-    readonly delay?: number;
-    readonly authStatus?: AuthStatus;
-    readonly handleOnFail: CallbackFunction;
-    readonly handleOnSuccess: CallbackFunction;
+  readonly delay?: number;
+  readonly isAuthenticated?: boolean;
+  readonly handleOnFail: CallbackFunction;
+  readonly handleOnSuccess: CallbackFunction;
 };
 
 const CHILD_DIV_COUNT = 9;
@@ -35,22 +36,22 @@ const childDivTemplate = (childIndex: number): string => (`
 `);
 
 const getChildDivCSS = (): string => {
-    let childDivCSS = '';
-    for (let index = 0; index < CHILD_DIV_COUNT; index += 1) {
-        childDivCSS += childDivTemplate(index);
-    }
-    return childDivCSS;
+  let childDivCSS = '';
+  for (let index = 0; index < CHILD_DIV_COUNT; index += 1) {
+    childDivCSS += childDivTemplate(index);
+  }
+  return childDivCSS;
 };
 
-const getChildDivBorderColor = (authStatus: AuthStatus): string => {
-    switch (authStatus) {
-        case AuthStatusEnum.FAIL:
-            return FAIL_COLOR;
-        case AuthStatusEnum.SUCCESS:
-            return SUCCESS_COLOR;
-        default:
-            return DEFAULT_COLOR;
-    }
+const getChildDivBorderColor = (isAuthenticated): string => {
+  switch (isAuthenticated) {
+    case false:
+      return FAIL_COLOR;
+    case true:
+      return SUCCESS_COLOR;
+    default:
+      return DEFAULT_COLOR;
+  }
 };
 
 const AuthenticatorWrapper = styled.div<AuthenticatorWrapperProps>`
@@ -72,6 +73,7 @@ const AuthenticatorWrapper = styled.div<AuthenticatorWrapperProps>`
     border-radius: 50%;
     box-sizing: border-box;
     border: 2px solid transparent;
+    border-top-color: ${({ isAuthenticated }) => getChildDivBorderColor(isAuthenticated)};
     animation: ${FINGERPRINT_KEYFRAMES} 1500ms cubic-bezier(0.68, -0.75, 0.265, 1.75) infinite forwards;
 
     ${getChildDivCSS()}
@@ -79,43 +81,48 @@ const AuthenticatorWrapper = styled.div<AuthenticatorWrapperProps>`
 `;
 
 const Authenticator = React.memo<AuthenticatorProps>(({
-                                                          authStatus,
-                                                          handleOnFail,
-                                                          handleOnSuccess,
-                                                          delay = 1500
-                                                      }) => {
-    useEffect(() => {
-        const authHandler = setTimeout(() => {
-            switch (authStatus) {
-                case AuthStatusEnum.FAIL:
-                    handleOnFail();
-                    return;
-                case AuthStatusEnum.SUCCESS:
-                    handleOnSuccess();
-                    return;
-                default:
-                    return;
-            }
-        }, delay);
+  handleOnFail,
+  handleOnSuccess,
+  delay = 1500,
+  isAuthenticated
+}) => {
+  useEffect(() => {
+    const authHandler = setTimeout(() => {
+      switch (isAuthenticated) {
+        case false:
+          handleOnFail();
+          return;
+        case true:
+          handleOnSuccess();
+          return;
+        default:
+          return;
+      }
+    }, delay);
 
-        return () => {
-            clearTimeout(authHandler);
-        };
-    }, [authStatus, delay, handleOnFail, handleOnSuccess]);
+    return () => {
+      clearTimeout(authHandler);
+    };
+  }, [isAuthenticated, delay, handleOnFail, handleOnSuccess]);
 
-    if (!authStatus || (authStatus === AuthStatusEnum.NONE)) {
-        return null;
-    }
+  if (!(isAuthenticated === true || isAuthenticated === false)) {
+    console.log(isAuthenticated);
+    return null;
+  }
 
-    return (
-        <AuthenticatorWrapper authStatus={authStatus}>
-            <div /><div /><div />
-            <div /><div /><div />
-            <div /><div /><div />
-        </AuthenticatorWrapper>
-    );
+  return (
+    <AuthenticatorWrapper isAuthenticated={isAuthenticated}>
+      <div /><div /><div />
+      <div /><div /><div />
+      <div /><div /><div />
+    </AuthenticatorWrapper>
+  );
 });
 
 Authenticator.displayName = 'Authenticator';
 
-export default Authenticator;
+const mapStateToProps = (state: ApplicationState) => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps)(Authenticator);

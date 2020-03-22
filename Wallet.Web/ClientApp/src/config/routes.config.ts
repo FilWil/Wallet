@@ -20,8 +20,32 @@ export const RoutesConfig = Object.freeze<RoutesConfig>({
     },
     Register: {
         path: '/register',
-        showInNav: true,
+        showInNav: false,
         displayName: 'Register',
         icon: 'sign-out-alt',
-    }
+    },
+    Home: {
+        path: '/home',
+        showInNav: true,
+        displayName: 'Home',
+        icon: 'sign-out-alt',
+    },
+    Balance: {
+        path: '/balance',
+        showInNav: true,
+        displayName: 'Balance',
+        icon: 'sign-out-alt',
+    },
+    Expenses: {
+        path: '/expenses',
+        showInNav: true,
+        displayName: 'Expenses',
+        icon: 'sign-out-alt',
+    },
+    Incomes: {
+        path: '/incomes',
+        showInNav: true,
+        displayName: 'Incomes',
+        icon: 'sign-out-alt',
+    },
 });

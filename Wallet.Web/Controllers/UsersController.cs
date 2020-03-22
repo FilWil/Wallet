@@ -25,10 +25,7 @@ namespace Wallet.Web.Controllers
         {
             var result = await Mediator.Send(query);
 
-            if (result.Success)
-                return Ok(result.Item);
-            else
-                return NotFound(result.Message);
+            return Ok(result.Item);
         }
     }
 }

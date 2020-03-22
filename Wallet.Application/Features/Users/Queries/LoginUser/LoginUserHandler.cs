@@ -34,10 +34,10 @@ namespace Wallet.Application.Features.Users.Queries.LoginUser
                 .FirstOrDefault(u => u.Email == request.Email);
 
             if (user is null)
-                return new RequestResult<AuthenticationDataDto>(false, null, "User with provided email does not exists");
+                return new RequestResult<AuthenticationDataDto>(false, new AuthenticationDataDto(null, 0, false), "User with provided email does not exists");
 
             if (!AuthService.VerifyPassword(user.Password, request.Password))
-                return new RequestResult<AuthenticationDataDto>(false, null, "Invalid password has been provided");
+                return new RequestResult<AuthenticationDataDto>(false, new AuthenticationDataDto(null, 0, false), "Invalid password has been provided");
 
             var authDataDto = Mapper.Map<AuthenticationDataDto>(AuthService.GetAuthenticationData(user.Id));
 

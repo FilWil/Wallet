@@ -9,10 +9,6 @@ type LoginControlsProps = {
 
 };
 
-function handleClick(props) {
-    console.log(props);
-    props.path  = '/register'
-}
 
 const LoginControls = React.memo<LoginControlsProps>(() => (
     <Fragment>
@@ -37,7 +33,6 @@ const LoginControls = React.memo<LoginControlsProps>(() => (
 LoginControls.displayName = 'LoginControls';
 
 const mapStateToProps = (state: ApplicationState) => ({
-    isLogin: state.auth.isLogin
 });
 
 export default LoginControls;
