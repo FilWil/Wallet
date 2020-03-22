@@ -30,11 +30,15 @@ const Login: React.FC<LoginProps> = ({
     const passwordInput = useTextInput('', showPassword ? 'text' : 'password');
 
     const onFailedAuth = useCallback((): void => {
-        console.log('fail');
+        toast.error(
+            renderToastifyMsg('Login failed', 'exclamation-triangle')
+        );
         resetState();
     }, [resetState]);
 
-    const onSuccessfulAuth = useCallback((): void => history.push(RoutesConfig.Register.path), [history]);
+    const onSuccessfulAuth = useCallback((): void => {
+        history.push(RoutesConfig.Register.path)
+    }, [history]);
 
     const handleLogin = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();

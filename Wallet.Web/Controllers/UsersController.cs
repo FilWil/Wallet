@@ -14,10 +14,7 @@ namespace Wallet.Web.Controllers
         {
             var result = await Mediator.Send(command);
 
-            if (result.Success)
-                return Ok(result.Item);
-            else
-                return NotFound(result.Message);
+            return Ok(result);
         }
 
         [HttpPost("login")]
@@ -25,7 +22,7 @@ namespace Wallet.Web.Controllers
         {
             var result = await Mediator.Send(query);
 
-            return Ok(result.Item);
+            return Ok(result);
         }
     }
 }

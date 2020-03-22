@@ -15,7 +15,7 @@ export const actionCreators = {
     loginUserRequest: (credentials: ICredentials): AppThunkAction<ReduxAction> => (dispatch) => {
         AuthApi.loginAsync(credentials)
             .then((authData: IAuthData ) => {
-                if (!!authData.isAuthenticated) {
+                if (!!authData.item.isAuthenticated) {
                     dispatch({
                         authData,
                         type: ActionType.LOGIN_SUCCESS
@@ -31,8 +31,18 @@ export const actionCreators = {
     registerUserRequest: (registerData: IRegisterData): AppThunkAction<ReduxAction> => (dispatch => {
         AuthApi.registerAsync(registerData)
             .then((registeredUser: IRegisteredUser) => {
-                console.log('Wyslano' + registerData);
-                console.log('Odebrano' +registeredUser);
+                if (registeredUser.success) {
+                    dispatch({
+                        registeredUser,
+                        type: ActionType.REGISTER_SUCCESS
+                    })
+                }
+                else if (!registeredUser.success) {
+                    dispatch({
+                        registeredUser,
+                        type: ActionType.REGISTER_FAILED
+                    })
+                }
         });
     })
 };

@@ -106,7 +106,6 @@ const Authenticator = React.memo<AuthenticatorProps>(({
   }, [isAuthenticated, delay, handleOnFail, handleOnSuccess]);
 
   if (!(isAuthenticated === true || isAuthenticated === false)) {
-    console.log(isAuthenticated);
     return null;
   }
 

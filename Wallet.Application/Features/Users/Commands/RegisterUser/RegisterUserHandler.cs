@@ -12,7 +12,7 @@ using Wallet.Domain.Interfaces;
 
 namespace Wallet.Application.Features.Users.Commands.RegisterUser
 {
-    public class RegisterUserHandler : IRequestHandler<RegisterUser, RequestResult<UserDto>>
+    public class RegisterUserHandler : IRequestHandler<RegisterUser, RequestResult<RegistrationDataDto>>
     {
         private readonly IMapper Mapper;
         private readonly IAuthService AuthService;
@@ -25,13 +25,13 @@ namespace Wallet.Application.Features.Users.Commands.RegisterUser
             UserRepository = userRepository;
         }
         
-        public async Task<RequestResult<UserDto>> Handle(RegisterUser request, CancellationToken cancellationToken)
+        public async Task<RequestResult<RegistrationDataDto>> Handle(RegisterUser request, CancellationToken cancellationToken)
         {
             if (UserRepository.GetAll().FirstOrDefault(u => u.Email == request.Email) != null)
-                return new RequestResult<UserDto>(false, null, "Email address is already used by another user");
+                return new RequestResult<RegistrationDataDto>(false, new RegistrationDataDto(null, null, false), "Email address is already used by another user");
 
             if (UserRepository.GetAll().FirstOrDefault(u => u.Username == request.Username) != null)
-                return new RequestResult<UserDto>(false, null, "Username is already used by another user");
+                return new RequestResult<RegistrationDataDto>(false, new RegistrationDataDto(null, null, false), "Username is already used by another user");
 
             var newUser = new User()
             {
@@ -44,9 +44,7 @@ namespace Wallet.Application.Features.Users.Commands.RegisterUser
             UserRepository.Add(newUser);
             UserRepository.SaveChanges();
 
-            var userDto = Mapper.Map<UserDto>(newUser);
-
-            return new RequestResult<UserDto>(true, userDto, "User has been registered");
+            return new RequestResult<RegistrationDataDto>(true, new RegistrationDataDto(newUser.Username, newUser.Email, true), "User has been registered");
         }
     }
 }

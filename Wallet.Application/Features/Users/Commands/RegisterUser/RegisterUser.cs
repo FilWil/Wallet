@@ -4,7 +4,7 @@ using Wallet.Domain.Core.Results;
 
 namespace Wallet.Application.Features.Users.Commands.RegisterUser
 {
-    public class RegisterUser : IRequest<RequestResult<UserDto>>
+    public class RegisterUser : IRequest<RequestResult<RegistrationDataDto>>
     {
         public string Username { get; set; }
         public string Email { get; set; }

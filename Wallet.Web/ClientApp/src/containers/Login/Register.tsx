@@ -10,6 +10,7 @@ import { actionCreators, AuthStatusEnum, reducer } from "../../store/auth";
 import { useTextInput } from "../../hooks/useTextInput";
 import { useToggle } from "../../hooks/useToggle";
 import UsernameInput from "./child-components/UsernameInput";
+import { Registrator} from "../../components";
 
 const MoneyLogo = require("../../assets/image/wallet-icon.png") as string;
 
@@ -32,11 +33,19 @@ const Register: React.FC<RegisterProps> = ({
     const passwordInput = useTextInput('', showPassword ? 'text' : 'password');
 
     const onFailedAuth = useCallback((): void => {
+        toast.error(
+            renderToastifyMsg('Registration has failed, please try again', 'exclamation-triangle')
+        );
         resetState();
-        setAuthStatus(AuthStatusEnum.NONE);
     }, [resetState, setAuthStatus]);
 
-    const onSuccessfulAuth = useCallback((): void => history.push(RoutesConfig.Dashboard.path), [history]);
+    const onSuccessfulAuth = useCallback((): void => {
+        toast.success(
+            renderToastifyMsg('Registration was successful, please login')
+        );
+        resetState();
+        history.push(RoutesConfig.Login.path)
+    }, [history]);
 
     const handleRegister = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
@@ -97,6 +106,10 @@ const Register: React.FC<RegisterProps> = ({
                             />
                             <RegisterControls/>
                         </form>
+                        <Registrator
+                            handleOnFail={onFailedAuth}
+                            handleOnSuccess={onSuccessfulAuth}
+                        />
                     </div>
                 </div>
             </div>

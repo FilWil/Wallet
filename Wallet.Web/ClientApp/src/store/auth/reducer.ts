@@ -6,6 +6,7 @@ const initialState = Object.freeze<IAuthState>({
     token: '',
     tokenExpirationTime: 0,
     isAuthenticated: undefined,
+    isRegistered: undefined
 });
 
 export const reducer = (
@@ -18,23 +19,28 @@ export const reducer = (
         case ActionType.LOGIN:
             return state;
         case ActionType.LOGIN_SUCCESS:
-            console.log('Login success');
-            console.log(action);
-
             return {
                 ...action.authData,
-                isAuthenticated: action.authData.isAuthenticated,
+                isAuthenticated: action.authData.item.isAuthenticated,
             };
         case ActionType.LOGOUT:
         case ActionType.LOGIN_FAIL:
-            console.log('Login failed');
-            console.log(action);
             return {
                 ...action.authData,
-                isAuthenticated: action.authData.isAuthenticated,
+                isAuthenticated: action.authData.item.isAuthenticated,
             };
         case ActionType.RESET_STATE:
             return initialState;
+        case ActionType.REGISTER_SUCCESS:
+            return {
+                ...action.registeredUser,
+                isRegistered: action.registeredUser.item.isRegistered
+            };
+        case ActionType.REGISTER_FAILED:
+            return {
+                ...action.registeredUser,
+                isRegistered: action.registeredUser.item.isRegistered
+            };
         default:
             return state;
     }
