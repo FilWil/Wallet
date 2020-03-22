@@ -37,7 +37,7 @@ const Login: React.FC<LoginProps> = ({
     }, [resetState]);
 
     const onSuccessfulAuth = useCallback((): void => {
-        history.push(RoutesConfig.Register.path)
+        history.push(RoutesConfig.Home.path)
     }, [history]);
 
     const handleLogin = (e: React.FormEvent<HTMLFormElement>): void => {

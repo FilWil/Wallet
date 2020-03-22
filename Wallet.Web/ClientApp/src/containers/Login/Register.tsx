@@ -6,7 +6,7 @@ import { ApplicationState } from "../../store";
 import { toast, ToastId } from "react-toastify";
 import { RoutesConfig } from "../../config/routes.config";
 import {EmailInput, PasswordInput, RegisterControls} from "./child-components";
-import { actionCreators, AuthStatusEnum, reducer } from "../../store/auth";
+import { actionCreators, reducer } from "../../store/auth";
 import { useTextInput } from "../../hooks/useTextInput";
 import { useToggle } from "../../hooks/useToggle";
 import UsernameInput from "./child-components/UsernameInput";
@@ -21,7 +21,6 @@ type RegisterProps = ReturnType<typeof reducer>
 const Register: React.FC<RegisterProps> = ({
                                          history,
                                          resetState,
-                                         setAuthStatus,
                                          registerUserRequest
                                      }) => {
     const toastIdRef = useRef<ToastId>('');
@@ -37,7 +36,7 @@ const Register: React.FC<RegisterProps> = ({
             renderToastifyMsg('Registration has failed, please try again', 'exclamation-triangle')
         );
         resetState();
-    }, [resetState, setAuthStatus]);
+    }, [resetState]);
 
     const onSuccessfulAuth = useCallback((): void => {
         toast.success(
@@ -63,7 +62,6 @@ const Register: React.FC<RegisterProps> = ({
             // Clear any toast notifications and prepare state for Login request stub / run login request stub
             toast.dismiss();
             setIsInputInvalid(false);
-            setAuthStatus(AuthStatusEnum.PROCESS);
 
             setTimeout(() => {
                 registerUserRequest({

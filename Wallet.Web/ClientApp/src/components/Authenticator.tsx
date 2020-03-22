@@ -1,7 +1,6 @@
 ﻿import React, { useEffect } from 'react';
 import { CallbackFunction } from '../types';
 import styled, { keyframes } from 'styled-components';
-import { AuthStatusEnum, AuthStatus } from '../store/auth';
 import {ApplicationState} from "../store";
 import { connect } from 'react-redux';
 

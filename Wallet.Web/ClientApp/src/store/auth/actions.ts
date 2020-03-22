@@ -1,16 +1,10 @@
-import { CallbackFunction } from "../../types";
 import { AppThunkAction, ReduxAction } from "../";
-import {ActionType, IAuthData, ICredentials, AuthStatusEnum, AuthStatus, IRegisterData, IRegisteredUser} from "./types";
+import {ActionType, IAuthData, ICredentials, IRegisterData, IRegisteredUser} from "./types";
 import { AuthApi } from "../../api/auth.service";
-import { useHistory } from "react-router-dom";
 
 export const actionCreators = {
     resetState: (): ReduxAction => ({
         type: ActionType.RESET_STATE
-    }),
-    setAuthStatus: (status: AuthStatus): ReduxAction => ({
-        status,
-        type: ActionType.SET_AUTH_STATUS
     }),
     loginUserRequest: (credentials: ICredentials): AppThunkAction<ReduxAction> => (dispatch) => {
         AuthApi.loginAsync(credentials)
