@@ -34,13 +34,15 @@ export const actionCreators = {
                 if (registeredUser.success) {
                     dispatch({
                         registeredUser,
-                        type: ActionType.REGISTER_SUCCESS
+                        type: ActionType.REGISTER_SUCCESS,
+                        status: AuthStatusEnum.SUCCESS
                     })
                 }
                 else if (!registeredUser.success) {
                     dispatch({
                         registeredUser,
-                        type: ActionType.REGISTER_FAILED
+                        type: ActionType.REGISTER_FAILED,
+                        status: AuthStatusEnum.FAIL
                     })
                 }
         });

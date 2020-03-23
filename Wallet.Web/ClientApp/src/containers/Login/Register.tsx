@@ -10,7 +10,7 @@ import {actionCreators, AuthStatusEnum, reducer} from "../../store/auth";
 import { useTextInput } from "../../hooks/useTextInput";
 import { useToggle } from "../../hooks/useToggle";
 import UsernameInput from "./child-components/UsernameInput";
-import { Registrator} from "../../components";
+import {Authenticator, Registrator} from "../../components";
 
 const MoneyLogo = require("../../assets/image/wallet-icon.png") as string;
 
@@ -23,7 +23,8 @@ const Register: React.FC<RegisterProps> = ({
                                          resetState,
                                          registerUserRequest,
                                          setAuthStatus,
-                                         status
+                                         status,
+    isRegistered
                                      }) => {
     const toastIdRef = useRef<ToastId>('');
     const [showPassword, toggleShowPassword] = useToggle(false);
@@ -117,6 +118,7 @@ const Register: React.FC<RegisterProps> = ({
                             handleOnFail={onFailedAuth}
                             handleOnSuccess={onSuccessfulAuth}
                             authStatus={status}
+                            isRegistered={isRegistered}
                         />
                     </div>
                 </div>
@@ -126,6 +128,8 @@ const Register: React.FC<RegisterProps> = ({
 };
 
 const mapStateToProps = (state: ApplicationState) => ({
+    isRegistered: state.auth.isRegistered,
+    status: state.auth.status
 });
 
 export default connect(mapStateToProps, actionCreators)(Register);
