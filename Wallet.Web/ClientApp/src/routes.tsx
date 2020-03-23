@@ -11,7 +11,6 @@ export const routes: ReactNode = (
             <Route exact path={RoutesConfig.Login.path} component={Login} />
             <Route exact path={RoutesConfig.Register.path} component={Register}/>
             <Route exact path={RoutesConfig.Home.path} component={Home}/>
-            <Route exact path={RoutesConfig.Balance.path} component={Register}/>
             <Route exact path={RoutesConfig.Expenses.path} component={Register}/>
             <Route exact path={RoutesConfig.Incomes.path} component={Register}/>
         </Switch>

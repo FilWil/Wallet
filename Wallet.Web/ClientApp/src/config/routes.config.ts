@@ -30,12 +30,6 @@ export const RoutesConfig = Object.freeze<RoutesConfig>({
         displayName: 'Home',
         icon: 'sign-out-alt',
     },
-    Balance: {
-        path: '/balance',
-        showInNav: true,
-        displayName: 'Balance',
-        icon: 'sign-out-alt',
-    },
     Expenses: {
         path: '/expenses',
         showInNav: true,
