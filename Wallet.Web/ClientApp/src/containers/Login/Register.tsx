@@ -6,7 +6,7 @@ import { ApplicationState } from "../../store";
 import { toast, ToastId } from "react-toastify";
 import { RoutesConfig } from "../../config/routes.config";
 import {EmailInput, PasswordInput, RegisterControls} from "./child-components";
-import { actionCreators, reducer } from "../../store/auth";
+import {actionCreators, AuthStatusEnum, reducer} from "../../store/auth";
 import { useTextInput } from "../../hooks/useTextInput";
 import { useToggle } from "../../hooks/useToggle";
 import UsernameInput from "./child-components/UsernameInput";
@@ -21,7 +21,9 @@ type RegisterProps = ReturnType<typeof reducer>
 const Register: React.FC<RegisterProps> = ({
                                          history,
                                          resetState,
-                                         registerUserRequest
+                                         registerUserRequest,
+                                         setAuthStatus,
+                                         status
                                      }) => {
     const toastIdRef = useRef<ToastId>('');
     const [showPassword, toggleShowPassword] = useToggle(false);
@@ -36,18 +38,24 @@ const Register: React.FC<RegisterProps> = ({
             renderToastifyMsg('Registration has failed, please try again', 'exclamation-triangle')
         );
         resetState();
-    }, [resetState]);
+        setAuthStatus(AuthStatusEnum.NONE);
+    }, [resetState, setAuthStatus]);
 
     const onSuccessfulAuth = useCallback((): void => {
         toast.success(
             renderToastifyMsg('Registration was successful, please login')
         );
         resetState();
+        setAuthStatus(AuthStatusEnum.SUCCESS);
         history.push(RoutesConfig.Login.path)
     }, [history]);
 
     const handleRegister = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
+
+        if (status === AuthStatusEnum.PROCESS) {
+            return;
+        }
 
         if (!emailInput.hasValue || !passwordInput.hasValue || !usernameInput.hasValue) {
             // Run invalidInputs error and display toast notification (if one is not already active)
@@ -62,6 +70,7 @@ const Register: React.FC<RegisterProps> = ({
             // Clear any toast notifications and prepare state for Login request stub / run login request stub
             toast.dismiss();
             setIsInputInvalid(false);
+            setAuthStatus(AuthStatusEnum.PROCESS);
 
             setTimeout(() => {
                 registerUserRequest({
@@ -69,7 +78,7 @@ const Register: React.FC<RegisterProps> = ({
                     username: usernameInput.value,
                     password: passwordInput.value
                 });
-            }, 2250);
+            }, 0);
         }
     };
 
@@ -107,6 +116,7 @@ const Register: React.FC<RegisterProps> = ({
                         <Registrator
                             handleOnFail={onFailedAuth}
                             handleOnSuccess={onSuccessfulAuth}
+                            authStatus={status}
                         />
                     </div>
                 </div>

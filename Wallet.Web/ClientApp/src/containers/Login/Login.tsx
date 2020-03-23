@@ -1,4 +1,4 @@
-﻿import React, { useCallback, useState, useRef } from "react";
+﻿import React, { useCallback, useEffect, useState, useRef } from "react";
 import { History } from "history";
 import { connect } from "react-redux";
 import { renderToastifyMsg } from "../../utils";
@@ -6,7 +6,7 @@ import { ApplicationState } from "../../store";
 import { toast, ToastId } from "react-toastify";
 import { RoutesConfig } from "../../config/routes.config";
 import {EmailInput, LoginControls, PasswordInput} from "./child-components";
-import { actionCreators, reducer } from "../../store/auth";
+import {actionCreators, AuthStatusEnum, reducer} from "../../store/auth";
 import { useTextInput } from "../../hooks/useTextInput";
 import { useToggle } from "../../hooks/useToggle";
 import {Authenticator} from "../../components";
@@ -20,7 +20,10 @@ type LoginProps = ReturnType<typeof reducer>
 const Login: React.FC<LoginProps> = ({
                                          history,
                                          resetState,
-                                         loginUserRequest
+                                         loginUserRequest,
+                                         isAuthenticated,
+                                         setAuthStatus,
+    status
                                      }) => {
     const toastIdRef = useRef<ToastId>('');
     const [showPassword, toggleShowPassword] = useToggle(false);
@@ -33,15 +36,21 @@ const Login: React.FC<LoginProps> = ({
         toast.error(
             renderToastifyMsg('Login failed', 'exclamation-triangle')
         );
+        setAuthStatus(AuthStatusEnum.FAIL);
         resetState();
-    }, [resetState]);
+        setAuthStatus(AuthStatusEnum.NONE);
+    }, [resetState, setAuthStatus]);
 
     const onSuccessfulAuth = useCallback((): void => {
+        setAuthStatus(AuthStatusEnum.SUCCESS);
         history.push(RoutesConfig.Home.path)
-    }, [history]);
+    }, [history, setAuthStatus]);
 
     const handleLogin = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
+        if (status === AuthStatusEnum.PROCESS) {
+            return;
+        }
 
         if (!emailInput.hasValue || !passwordInput.hasValue) {
             // Run invalidInputs error and display toast notification (if one is not already active)
@@ -56,13 +65,14 @@ const Login: React.FC<LoginProps> = ({
             // Clear any toast notifications and prepare state for Login request stub / run login request stub
             toast.dismiss();
             setIsInputInvalid(false);
+            setAuthStatus(AuthStatusEnum.PROCESS);
 
             setTimeout(() => {
                 loginUserRequest({
                     email: emailInput.value,
                     password: passwordInput.value
                 });
-            }, 2250);
+            }, 0);
         }
     };
 
@@ -96,6 +106,8 @@ const Login: React.FC<LoginProps> = ({
                         <Authenticator
                             handleOnFail={onFailedAuth}
                             handleOnSuccess={onSuccessfulAuth}
+                            isAuthenticated={isAuthenticated}
+                            authStatus={status}
                         />
                     </div>
                 </div>
@@ -106,6 +118,7 @@ const Login: React.FC<LoginProps> = ({
 
 const mapStateToProps = (state: ApplicationState) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    status: state.auth.status
 });
 
 export default connect(mapStateToProps, actionCreators)(Login);

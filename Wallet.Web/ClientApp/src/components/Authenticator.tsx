@@ -1,11 +1,11 @@
 ﻿import React, { useEffect } from 'react';
 import { CallbackFunction } from '../types';
 import styled, { keyframes } from 'styled-components';
-import {ApplicationState} from "../store";
-import { connect } from 'react-redux';
+import {AuthStatus, AuthStatusEnum} from "../store/auth";
 
 type AuthenticatorWrapperProps = {
   readonly isAuthenticated?: boolean;
+  readonly authStatus?: AuthStatus;
 };
 
 type AuthenticatorProps = {
@@ -13,6 +13,7 @@ type AuthenticatorProps = {
   readonly isAuthenticated?: boolean;
   readonly handleOnFail: CallbackFunction;
   readonly handleOnSuccess: CallbackFunction;
+  readonly authStatus?: AuthStatus;
 };
 
 const CHILD_DIV_COUNT = 9;
@@ -42,11 +43,11 @@ const getChildDivCSS = (): string => {
   return childDivCSS;
 };
 
-const getChildDivBorderColor = (isAuthenticated): string => {
-  switch (isAuthenticated) {
-    case false:
+const getChildDivBorderColor = (authStatus: AuthStatus): string => {
+  switch (authStatus) {
+    case AuthStatusEnum.FAIL:
       return FAIL_COLOR;
-    case true:
+    case AuthStatusEnum.SUCCESS:
       return SUCCESS_COLOR;
     default:
       return DEFAULT_COLOR;
@@ -72,7 +73,7 @@ const AuthenticatorWrapper = styled.div<AuthenticatorWrapperProps>`
     border-radius: 50%;
     box-sizing: border-box;
     border: 2px solid transparent;
-    border-top-color: ${({ isAuthenticated }) => getChildDivBorderColor(isAuthenticated)};
+    border-top-color: ${({ authStatus }) => getChildDivBorderColor(authStatus)};
     animation: ${FINGERPRINT_KEYFRAMES} 1500ms cubic-bezier(0.68, -0.75, 0.265, 1.75) infinite forwards;
 
     ${getChildDivCSS()}
@@ -80,10 +81,11 @@ const AuthenticatorWrapper = styled.div<AuthenticatorWrapperProps>`
 `;
 
 const Authenticator = React.memo<AuthenticatorProps>(({
-  handleOnFail,
-  handleOnSuccess,
-  delay = 1500,
-  isAuthenticated
+                                                        handleOnFail,
+                                                        handleOnSuccess,
+                                                        delay = 1500,
+                                                        isAuthenticated,
+                                                        authStatus
 }) => {
   useEffect(() => {
     const authHandler = setTimeout(() => {
@@ -102,14 +104,14 @@ const Authenticator = React.memo<AuthenticatorProps>(({
     return () => {
       clearTimeout(authHandler);
     };
-  }, [isAuthenticated, delay, handleOnFail, handleOnSuccess]);
+  }, [isAuthenticated, delay, handleOnFail, handleOnSuccess, authStatus]);
 
   if (!(isAuthenticated === true || isAuthenticated === false)) {
     return null;
   }
 
   return (
-    <AuthenticatorWrapper isAuthenticated={isAuthenticated}>
+    <AuthenticatorWrapper authStatus={authStatus}>
       <div /><div /><div />
       <div /><div /><div />
       <div /><div /><div />
@@ -119,8 +121,4 @@ const Authenticator = React.memo<AuthenticatorProps>(({
 
 Authenticator.displayName = 'Authenticator';
 
-const mapStateToProps = (state: ApplicationState) => ({
-  isAuthenticated: state.auth.isAuthenticated
-});
-
-export default connect(mapStateToProps)(Authenticator);
+export default Authenticator;

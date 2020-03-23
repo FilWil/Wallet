@@ -1,10 +1,14 @@
 import { AppThunkAction, ReduxAction } from "../";
-import {ActionType, IAuthData, ICredentials, IRegisterData, IRegisteredUser} from "./types";
+import {ActionType, AuthStatus, AuthStatusEnum, IAuthData, ICredentials, IRegisterData, IRegisteredUser} from "./types";
 import { AuthApi } from "../../api/auth.service";
 
 export const actionCreators = {
     resetState: (): ReduxAction => ({
         type: ActionType.RESET_STATE
+    }),
+    setAuthStatus: (status: AuthStatus): ReduxAction => ({
+        status,
+        type: ActionType.SET_AUTH_STATUS
     }),
     loginUserRequest: (credentials: ICredentials): AppThunkAction<ReduxAction> => (dispatch) => {
         AuthApi.loginAsync(credentials)
@@ -12,12 +16,14 @@ export const actionCreators = {
                 if (!!authData.item.isAuthenticated) {
                     dispatch({
                         authData,
-                        type: ActionType.LOGIN_SUCCESS
+                        type: ActionType.LOGIN_SUCCESS,
+                        status: AuthStatusEnum.SUCCESS
                     })
                 } else {
                     dispatch({
                         authData,
-                        type: ActionType.LOGIN_FAIL
+                        type: ActionType.LOGIN_FAIL,
+                        status: AuthStatusEnum.FAIL
                     })
                 }
             });

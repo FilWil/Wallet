@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { CallbackFunction } from '../types';
 import styled, { keyframes } from 'styled-components';
-import {ApplicationState} from "../store";
-import { connect } from 'react-redux';
+import {AuthStatus, AuthStatusEnum} from "../store/auth";
 
 type RegistratorWrapperProps = {
     readonly isRegistered?: boolean;
+    readonly authStatus?: AuthStatus;
 };
 
 type RegistratorProps = {
@@ -13,6 +13,7 @@ type RegistratorProps = {
     readonly isRegistered?: boolean;
     readonly handleOnFail: CallbackFunction;
     readonly handleOnSuccess: CallbackFunction;
+    readonly authStatus?: AuthStatus;
 };
 
 const CHILD_DIV_COUNT = 9;
@@ -42,11 +43,11 @@ const getChildDivCSS = (): string => {
     return childDivCSS;
 };
 
-const getChildDivBorderColor = (isRegistered): string => {
-    switch (isRegistered) {
-        case false:
+const getChildDivBorderColor = (authStatus: AuthStatus): string => {
+    switch (authStatus) {
+        case AuthStatusEnum.FAIL:
             return FAIL_COLOR;
-        case true:
+        case AuthStatusEnum.SUCCESS:
             return SUCCESS_COLOR;
         default:
             return DEFAULT_COLOR;
@@ -72,7 +73,7 @@ const RegistratorWrapper = styled.div<RegistratorWrapperProps>`
     border-radius: 50%;
     box-sizing: border-box;
     border: 2px solid transparent;
-    border-top-color: ${({ isRegistered }) => getChildDivBorderColor(isRegistered)};
+    border-top-color: ${({ authStatus }) => getChildDivBorderColor(authStatus)};
     animation: ${FINGERPRINT_KEYFRAMES} 1500ms cubic-bezier(0.68, -0.75, 0.265, 1.75) infinite forwards;
 
     ${getChildDivCSS()}
@@ -83,8 +84,9 @@ const Registrator = React.memo<RegistratorProps>(({
                                                           handleOnFail,
                                                           handleOnSuccess,
                                                           delay = 1500,
-                                                           isRegistered
-                                                      }) => {
+                                                          isRegistered,
+                                                          authStatus
+                                                  }) => {
     useEffect(() => {
         const registrationHandler = setTimeout(() => {
             switch (isRegistered) {
@@ -102,14 +104,14 @@ const Registrator = React.memo<RegistratorProps>(({
         return () => {
             clearTimeout(registrationHandler);
         };
-    }, [isRegistered, delay, handleOnFail, handleOnSuccess]);
+    }, [isRegistered, delay, handleOnFail, handleOnSuccess, authStatus]);
 
     if (!(isRegistered === true || isRegistered === false)) {
         return null;
     }
 
     return (
-        <RegistratorWrapper isRegistered={isRegistered}>
+        <RegistratorWrapper authStatus={authStatus}>
             <div /><div /><div />
             <div /><div /><div />
             <div /><div /><div />
@@ -119,8 +121,4 @@ const Registrator = React.memo<RegistratorProps>(({
 
 Registrator.displayName = 'Registrator';
 
-const mapStateToProps = (state: ApplicationState) => ({
-    isRegistered: state.auth.isRegistered
-});
-
-export default connect(mapStateToProps)(Registrator);
+export default Registrator;

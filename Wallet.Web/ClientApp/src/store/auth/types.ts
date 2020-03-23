@@ -6,6 +6,7 @@ export interface IActionType {
     readonly RESET_STATE: string;
     readonly REGISTER_SUCCESS: string;
     readonly REGISTER_FAILED: string;
+    readonly SET_AUTH_STATUS: string;
 }
 
 export type ICredentials = {
@@ -18,6 +19,8 @@ export type IRegisterData = {
     username?: string;
     password?: string;
 }
+
+export type AuthStatus = "none" | "process" | "success" | "fail";
 
 export type IAuthData  = {
     success?: boolean,
@@ -44,6 +47,7 @@ export type IAuthState = {
     readonly tokenExpirationTime?: number;
     readonly isAuthenticated?: boolean;
     readonly isRegistered?: boolean;
+    readonly status?: AuthStatus;
 };
 
 const _namespace = 'auth';
@@ -56,4 +60,12 @@ export const ActionType = Object.freeze<IActionType>({
     RESET_STATE: `${_namespace}/resetState`,
     REGISTER_SUCCESS: `${_namespace}/registerSuccess`,
     REGISTER_FAILED: `${_namespace}/registerFailed`,
+    SET_AUTH_STATUS: `${_namespace}/setAuthStatus`
+});
+
+export const AuthStatusEnum = Object.freeze<{ [key: string]: AuthStatus }>({
+    NONE: "none",
+    PROCESS: "process",
+    SUCCESS: "success",
+    FAIL: "fail"
 });
