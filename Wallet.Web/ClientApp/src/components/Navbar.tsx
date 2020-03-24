@@ -23,7 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
         <div>
             {auth && <nav
                 role='navigation'
-                className='navbar'
+                className='menu'
                 aria-label='main navigation'
             >
                 <div className='navbar-wrapper'>
