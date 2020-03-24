@@ -11,6 +11,7 @@ type NavbarProps = {
 };
 
 const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
+    const auth = localStorage.getItem("isAuthenticated");
     const navRoutes = Object.keys(RoutesConfig)
         .reduce((acc: Route[], key: string) => {
             const route = RoutesConfig[key];
@@ -19,36 +20,38 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
         }, []);
 
     return (
-        <nav
-            role='navigation'
-            className='navbar'
-            aria-label='main navigation'
-        >
-            <div className='navbar-wrapper'>
-                <div className='brand-wrapper'>
-                    <img
-                        width="45"
-                        id="login-img"
-                        src={WalletLogo}
-                        alt="money-logo"
-                    />
-                    <span className='navbar-wrapper__logo-text'>Wallet</span>
+        <div>
+            {auth && <nav
+                role='navigation'
+                className='navbar'
+                aria-label='main navigation'
+            >
+                <div className='navbar-wrapper'>
+                    <div className='brand-wrapper'>
+                        <img
+                            width="45"
+                            id="login-img"
+                            src={WalletLogo}
+                            alt="money-logo"
+                        />
+                        <span className='navbar-wrapper__logo-text'>Wallet</span>
+                    </div>
+                    <div className='navbar-routes'>
+                        {auth && navRoutes.map(({ path, exact, displayName }) => (
+                            <NavLink
+                                to={path}
+                                key={path}
+                                exact={exact}
+                                className='navbar-item'
+                                activeClassName='is-active'
+                            >
+                                {displayName}
+                            </NavLink>
+                        ))}
+                    </div>
                 </div>
-                <div className='navbar-routes'>
-                    {isAuthenticated && navRoutes.map(({ path, exact, displayName }) => (
-                        <NavLink
-                            to={path}
-                            key={path}
-                            exact={exact}
-                            className='navbar-item'
-                            activeClassName='is-active'
-                        >
-                            {displayName}
-                        </NavLink>
-                    ))}
-                </div>
-            </div>
-        </nav>
+            </nav>}
+        </div>
     );
 };
 

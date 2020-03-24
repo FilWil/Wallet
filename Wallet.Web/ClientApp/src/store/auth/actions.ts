@@ -14,6 +14,8 @@ export const actionCreators = {
         AuthApi.loginAsync(credentials)
             .then((authData: IAuthData ) => {
                 if (!!authData.item.isAuthenticated) {
+                    localStorage.setItem("token", authData.item.token);
+                    localStorage.setItem("isAuthenticated", authData.item.isAuthenticated.toString());
                     dispatch({
                         authData,
                         type: ActionType.LOGIN_SUCCESS,

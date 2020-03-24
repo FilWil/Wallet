@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wallet.Infrastructure", "Wa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wallet.Application", "Wallet.Application\Wallet.Application.csproj", "{8B39E3A1-6D45-47D6-BE22-016C78EF1487}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wallet.Domain.Core", "Wallet.Domain.Core\Wallet.Domain.Core.csproj", "{D6008A59-C623-43CF-817F-894118985789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wallet.Domain.Core", "Wallet.Domain.Core\Wallet.Domain.Core.csproj", "{D6008A59-C623-43CF-817F-894118985789}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 import { ApplicationState } from "../../store";
 import { actionCreators, reducer } from "../../store/auth";
 
-type LoginProps = ReturnType<typeof reducer>
+type HomeProps = ReturnType<typeof reducer>
     & typeof actionCreators
     & { readonly history: History };
 
-const Home: React.FC<LoginProps> = ({
+const Home: React.FC<HomeProps> = ({
                                          history,
                                          resetState
                                      }) => {
