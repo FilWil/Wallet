@@ -10,6 +10,8 @@ namespace Wallet.Infrastructure.IoC
         public static void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IExpenseRepository, ExpenseRepository>();
+
             services.AddScoped<WalletDbContext>();
         }
     }

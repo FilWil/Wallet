@@ -1,10 +1,8 @@
-﻿
-using System.Collections.Generic;
-using Wallet.Domain.Core.Models;
+﻿using System.Collections.Generic;
 
 namespace Wallet.Domain.Entities
 {
-    public class User : BaseEntity
+    public class User
     {
         public string Id { get; set; }
         public string Username { get; set; }

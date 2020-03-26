@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using Wallet.Application.Features.Expenses.Dtos;
 using Wallet.Application.Features.Users.Dtos;
 using Wallet.Application.Models;
 using Wallet.Domain.Entities;
@@ -21,6 +22,7 @@ namespace Wallet.Application.AutoMapper
         {
             config.CreateMap<User, UserDto>();
             config.CreateMap<AuthenticationData, AuthenticationDataDto>();
+            config.CreateMap<Expense, ExpenseDto>();
         }
     }
 }
