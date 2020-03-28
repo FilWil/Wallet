@@ -3,6 +3,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,19 +30,28 @@ namespace Wallet.Application.Features.Users.Queries.LoginUser
 
         public async Task<RequestResult<AuthenticationDataDto>> Handle(LoginUser request, CancellationToken cancellationToken)
         {
+            var result = new RequestResult<AuthenticationDataDto>();
+
             var user = UserRepository
                 .GetAll()
                 .FirstOrDefault(u => u.Email == request.Email);
 
             if (user is null)
-                return new RequestResult<AuthenticationDataDto>(false, new AuthenticationDataDto(null, 0, false), "User with provided email does not exists");
+            {
+                result.AddError($"User with email {request?.Email} does not exists", HttpStatusCode.NotFound);
+                result.SetSingleItem(new AuthenticationDataDto(null, 0, false));
+            }
 
             if (!AuthService.VerifyPassword(user.Password, request.Password))
-                return new RequestResult<AuthenticationDataDto>(false, new AuthenticationDataDto(null, 0, false), "Invalid password has been provided");
+            {
+                result.AddError("Invalid password has been provided");
+                result.SetSingleItem(new AuthenticationDataDto(null, 0, false));
+            }
 
             var authDataDto = Mapper.Map<AuthenticationDataDto>(AuthService.GetAuthenticationData(user.Id));
 
-            return new RequestResult<AuthenticationDataDto>(true, authDataDto, "Login was successful");
+            result.SetSingleItem(authDataDto);
+            return result;
         }
     }
 }

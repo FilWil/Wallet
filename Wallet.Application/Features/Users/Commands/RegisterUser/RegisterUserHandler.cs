@@ -27,11 +27,21 @@ namespace Wallet.Application.Features.Users.Commands.RegisterUser
         
         public async Task<RequestResult<RegistrationDataDto>> Handle(RegisterUser request, CancellationToken cancellationToken)
         {
+            var result = new RequestResult<RegistrationDataDto>();
+            
             if (UserRepository.GetAll().FirstOrDefault(u => u.Email == request.Email) != null)
-                return new RequestResult<RegistrationDataDto>(false, new RegistrationDataDto(null, null, false), "Email address is already used by another user");
+            {
+                result.AddError($"Email {request.Email} is already used by another user");
+                result.SetSingleItem(new RegistrationDataDto(null, null, false));
+                return result;
+            }
 
             if (UserRepository.GetAll().FirstOrDefault(u => u.Username == request.Username) != null)
-                return new RequestResult<RegistrationDataDto>(false, new RegistrationDataDto(null, null, false), "Username is already used by another user");
+            {
+                result.AddError($"Username {request.Username} is already used by another user");
+                result.SetSingleItem(new RegistrationDataDto(null, null, false));
+                return result;
+            }
 
             var newUser = new User()
             {
@@ -44,7 +54,10 @@ namespace Wallet.Application.Features.Users.Commands.RegisterUser
             UserRepository.Add(newUser);
             UserRepository.SaveChanges();
 
-            return new RequestResult<RegistrationDataDto>(true, new RegistrationDataDto(newUser.Username, newUser.Email, true), "User has been registered");
+            var registrationDataDto = new RegistrationDataDto(newUser.Username, newUser.Email, true);
+
+            result.SetSingleItem(registrationDataDto);
+            return result;
         }
     }
 }

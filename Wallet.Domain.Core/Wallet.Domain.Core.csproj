@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Humanizer.Core" Version="2.7.9" />
     <PackageReference Include="MediatR" Version="8.0.1" />
   </ItemGroup>
 
