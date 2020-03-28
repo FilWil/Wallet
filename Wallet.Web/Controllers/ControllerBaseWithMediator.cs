@@ -22,9 +22,9 @@ namespace Wallet.Web.Controllers
             if (!result.IsSuccess)
             {
                 if (result.StatusCode != null)
-                    return StatusCode((int)result.StatusCode);
+                    return StatusCode((int)result.StatusCode, result.GetResult());
                 else
-                    return StatusCode((int)HttpStatusCode.InternalServerError);
+                    return StatusCode((int)HttpStatusCode.InternalServerError, result.GetResult());
             }
 
             return null;

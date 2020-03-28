@@ -6,10 +6,10 @@ namespace Wallet.Domain.Interfaces
     public interface IGenericRepository<TEntity> : IDisposable where TEntity : class
     {
         void Add(TEntity obj);
-        TEntity GetById(Guid id);
+        TEntity GetById(string id);
         IQueryable<TEntity> GetAll();
         void Update(TEntity obj);
-        void Remove(Guid id);
+        void Remove(string id);
         int SaveChanges();
     }
 }

@@ -33,12 +33,12 @@ namespace Wallet.Infrastructure.Data.Repositories
             return DbSet;
         }
 
-        public TEntity GetById(Guid id)
+        public TEntity GetById(string id)
         {
             return DbSet.Find(id);
         }
 
-        public void Remove(Guid id)
+        public void Remove(string id)
         {
             DbSet.Remove(DbSet.Find(id));
         }

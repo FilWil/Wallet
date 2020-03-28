@@ -8,7 +8,7 @@ namespace Wallet.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Balance",
+                name: "Balances",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -18,9 +18,9 @@ namespace Wallet.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Balance", x => x.Id);
+                    table.PrimaryKey("PK_Balances", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Balance_Users_UserId",
+                        name: "FK_Balances_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -28,11 +28,10 @@ namespace Wallet.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Expense",
+                name: "Expenses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
@@ -40,9 +39,9 @@ namespace Wallet.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Expense", x => x.Id);
+                    table.PrimaryKey("PK_Expenses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Expense_Users_UserId",
+                        name: "FK_Expenses_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -50,11 +49,10 @@ namespace Wallet.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Goal",
+                name: "Goals",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
@@ -62,9 +60,9 @@ namespace Wallet.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Goal", x => x.Id);
+                    table.PrimaryKey("PK_Goals", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Goal_Users_UserId",
+                        name: "FK_Goals_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -72,11 +70,10 @@ namespace Wallet.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Income",
+                name: "Incomes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
@@ -84,9 +81,9 @@ namespace Wallet.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Income", x => x.Id);
+                    table.PrimaryKey("PK_Incomes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Income_Users_UserId",
+                        name: "FK_Incomes_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -94,41 +91,41 @@ namespace Wallet.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Balance_UserId",
-                table: "Balance",
+                name: "IX_Balances_UserId",
+                table: "Balances",
                 column: "UserId",
                 unique: true,
                 filter: "[UserId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Expense_UserId",
-                table: "Expense",
+                name: "IX_Expenses_UserId",
+                table: "Expenses",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Goal_UserId",
-                table: "Goal",
+                name: "IX_Goals_UserId",
+                table: "Goals",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Income_UserId",
-                table: "Income",
+                name: "IX_Incomes_UserId",
+                table: "Incomes",
                 column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Balance");
+                name: "Balances");
 
             migrationBuilder.DropTable(
-                name: "Expense");
+                name: "Expenses");
 
             migrationBuilder.DropTable(
-                name: "Goal");
+                name: "Goals");
 
             migrationBuilder.DropTable(
-                name: "Income");
+                name: "Incomes");
         }
     }
 }

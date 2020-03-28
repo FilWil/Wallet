@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Expenses\Queries\" />
     <Folder Include="Features\Goals\" />
     <Folder Include="Features\Incomes\" />
     <Folder Include="Features\Balances\" />
