@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Features\Goals\" />
-    <Folder Include="Features\Incomes\" />
     <Folder Include="Features\Balances\" />
   </ItemGroup>
 

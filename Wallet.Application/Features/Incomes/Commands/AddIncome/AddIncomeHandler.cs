@@ -1,33 +1,32 @@
 ﻿using AutoMapper;
 using MediatR;
 using System;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Wallet.Application.Features.Expenses.Dtos;
+using Wallet.Application.Features.Incomes.Dtos;
 using Wallet.Domain.Core.Results;
 using Wallet.Domain.Entities;
 using Wallet.Domain.Interfaces;
 
-namespace Wallet.Application.Features.Expenses.Commands.AddExpense
+namespace Wallet.Application.Features.Incomes.Commands.AddIncome
 {
-    public class AddExpenseHandler : IRequestHandler<AddExpense, RequestResult<ExpenseDto>>
+    public class AddIncomeHandler : IRequestHandler<AddIncome, RequestResult<IncomeDto>>
     {
-        private readonly IExpenseRepository ExpenseRepository;
         private readonly IUserRepository UserRepository;
+        private readonly IIncomeRepository IncomeRepository;
         private readonly IMapper Mapper;
-        
-        public AddExpenseHandler(IExpenseRepository expenseRepository, IMapper mapper, IUserRepository userRepository)
+
+        public AddIncomeHandler(IUserRepository userRepository, IIncomeRepository incomeRepository, IMapper mapper)
         {
-            ExpenseRepository = expenseRepository;
-            Mapper = mapper;
             UserRepository = userRepository;
+            IncomeRepository = incomeRepository;
+            Mapper = mapper;
         }
         
-        public async Task<RequestResult<ExpenseDto>> Handle(AddExpense request, CancellationToken cancellationToken)
+        public async Task<RequestResult<IncomeDto>> Handle(AddIncome request, CancellationToken cancellationToken)
         {
-            var result = new RequestResult<ExpenseDto>();
+            var result = new RequestResult<IncomeDto>();
 
             var user = UserRepository
                 .GetById(request.UserId);
@@ -38,11 +37,11 @@ namespace Wallet.Application.Features.Expenses.Commands.AddExpense
                 return result;
             }
 
-            user.BalanceValue -= request.Value;
-
+            user.BalanceValue += request.Value;
+            
             UserRepository.Update(user);
 
-            var expense = new Expense()
+            var income = new Income()
             {
                 Id = Guid.NewGuid().ToString(),
                 CreatedAt = DateTime.UtcNow,
@@ -51,10 +50,10 @@ namespace Wallet.Application.Features.Expenses.Commands.AddExpense
                 User = user
             };
 
-            ExpenseRepository.Add(expense);
-            ExpenseRepository.SaveChanges();
+            IncomeRepository.Add(income);
+            IncomeRepository.SaveChanges();
 
-            result.SetSingleItem(Mapper.Map<ExpenseDto>(expense));
+            result.SetSingleItem(Mapper.Map<IncomeDto>(income));
             result.StatusCode = HttpStatusCode.OK;
 
             return result;

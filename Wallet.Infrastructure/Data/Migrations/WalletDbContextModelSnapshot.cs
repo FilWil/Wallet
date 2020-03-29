@@ -19,28 +19,6 @@ namespace Wallet.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Wallet.Domain.Entities.Balance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<double>("Value")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
-                    b.ToTable("Balances");
-                });
-
             modelBuilder.Entity("Wallet.Domain.Entities.Expense", b =>
                 {
                     b.Property<string>("Id")
@@ -118,6 +96,9 @@ namespace Wallet.Infrastructure.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<double>("BalanceValue")
+                        .HasColumnType("float");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -130,13 +111,6 @@ namespace Wallet.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Wallet.Domain.Entities.Balance", b =>
-                {
-                    b.HasOne("Wallet.Domain.Entities.User", "User")
-                        .WithOne("Balance")
-                        .HasForeignKey("Wallet.Domain.Entities.Balance", "UserId");
                 });
 
             modelBuilder.Entity("Wallet.Domain.Entities.Expense", b =>

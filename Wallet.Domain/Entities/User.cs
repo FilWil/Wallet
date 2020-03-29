@@ -9,10 +9,10 @@ namespace Wallet.Domain.Entities
         public string Email { get; set; }
         public string Password { get; set; }
 
+        public double BalanceValue { get; set; }
+
         public ICollection<Expense> Expenses { get; set; }
         public ICollection<Income> Incomes { get; set; }
         public ICollection<Goal> Goals { get; set; }
-
-        public Balance Balance { get; set; }
     }
 }

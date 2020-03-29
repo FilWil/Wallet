@@ -7,7 +7,7 @@ using Wallet.Application.Features.Expenses.Dtos;
 using Wallet.Domain.Core.Results;
 using Wallet.Domain.Interfaces;
 
-namespace Wallet.Application.Features.Expenses.Queries
+namespace Wallet.Application.Features.Expenses.Queries.GetExpenses
 {
     public class GetExpensesHandler : IRequestHandler<GetExpenses, RequestResult<ExpenseDto>>
     {

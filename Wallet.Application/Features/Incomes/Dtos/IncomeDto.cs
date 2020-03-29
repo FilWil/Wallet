@@ -1,9 +1,8 @@
-﻿using System;
-using Wallet.Application.Dtos;
+﻿using Wallet.Application.Dtos;
 
-namespace Wallet.Application.Features.Expenses.Dtos
+namespace Wallet.Application.Features.Incomes.Dtos
 {
-    public class ExpenseDto : BaseEntityDto
+    public class IncomeDto : BaseEntityDto
     {
         public string Id { get; set; }
         public string UserUsername { get; set; }

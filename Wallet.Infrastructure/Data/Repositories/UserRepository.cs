@@ -1,4 +1,6 @@
-﻿using Wallet.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using Wallet.Domain.Entities;
 using Wallet.Domain.Interfaces;
 using Wallet.Infrastructure.Data.Context;
 

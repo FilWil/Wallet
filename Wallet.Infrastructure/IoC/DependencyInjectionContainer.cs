@@ -11,6 +11,7 @@ namespace Wallet.Infrastructure.IoC
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IExpenseRepository, ExpenseRepository>();
+            services.AddScoped<IIncomeRepository, IncomeRepository>();
 
             services.AddScoped<WalletDbContext>();
         }

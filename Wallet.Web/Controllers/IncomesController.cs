@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Wallet.Application.Features.Expenses.Commands.AddExpense;
-using Wallet.Application.Features.Expenses.Commands.RemoveExpense;
-using Wallet.Application.Features.Expenses.Queries.GetExpenses;
+using Wallet.Application.Features.Incomes.Commands.AddIncome;
+using Wallet.Application.Features.Incomes.Commands.RemoveIncome;
+using Wallet.Application.Features.Incomes.Queries.GetIncomes;
 
 namespace Wallet.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ExpensesController : ControllerBaseWithMediator
+    public class IncomesController : ControllerBaseWithMediator
     {
         [HttpPost]
-        public async Task<IActionResult> AddExpense([FromBody]AddExpense command)
+        public async Task<IActionResult> AddIncome([FromBody]AddIncome command)
         {
             var result = await Mediator.Send(command);
 
@@ -19,20 +19,20 @@ namespace Wallet.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetExpenses ()
+        public async Task<IActionResult> GetIncomes()
         {
-            var query = new GetExpenses();
+            var query = new GetIncomes();
             var result = await Mediator.Send(query);
 
             return FromResult(result);
         }
 
         [HttpDelete("{expenseId}")]
-        public async Task<IActionResult> RemoveExpense([FromRoute]string expenseId)
+        public async Task<IActionResult> RemoveIncome([FromRoute]string incomeId)
         {
-            var command = new RemoveExpense
+            var command = new RemoveIncome
             {
-                ExpenseId = expenseId
+                IncomeId = incomeId
             };
 
             var result = await Mediator.Send(command);

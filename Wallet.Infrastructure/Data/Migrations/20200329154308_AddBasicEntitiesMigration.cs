@@ -7,25 +7,11 @@ namespace Wallet.Infrastructure.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Balances",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(nullable: true),
-                    Value = table.Column<double>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Balances", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Balances_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
+            migrationBuilder.AddColumn<double>(
+                name: "BalanceValue",
+                table: "Users",
+                nullable: false,
+                defaultValue: 0.0);
 
             migrationBuilder.CreateTable(
                 name: "Expenses",
@@ -91,13 +77,6 @@ namespace Wallet.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Balances_UserId",
-                table: "Balances",
-                column: "UserId",
-                unique: true,
-                filter: "[UserId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Expenses_UserId",
                 table: "Expenses",
                 column: "UserId");
@@ -116,9 +95,6 @@ namespace Wallet.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Balances");
-
-            migrationBuilder.DropTable(
                 name: "Expenses");
 
             migrationBuilder.DropTable(
@@ -126,6 +102,10 @@ namespace Wallet.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Incomes");
+
+            migrationBuilder.DropColumn(
+                name: "BalanceValue",
+                table: "Users");
         }
     }
 }
