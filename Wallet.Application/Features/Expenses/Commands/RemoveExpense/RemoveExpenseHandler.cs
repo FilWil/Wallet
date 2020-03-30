@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,21 +8,24 @@ using Wallet.Domain.Interfaces;
 
 namespace Wallet.Application.Features.Expenses.Commands.RemoveExpense
 {
-    public class RemoveExpenseHandler : IRequestHandler<RemoveExpense, RequestResult<Unit>>
+    public class RemoveExpenseHandler : IRequestHandler<RemoveExpense, RequestResult<double>>
     {
         private readonly IExpenseRepository ExpenseRepository;
+        private readonly IUserRepository UserRepository;
 
-        public RemoveExpenseHandler(IExpenseRepository expenseRepository)
+        public RemoveExpenseHandler(IExpenseRepository expenseRepository, IUserRepository userRepository)
         {
             ExpenseRepository = expenseRepository;
+            UserRepository = userRepository;
         }
 
-        public async Task<RequestResult<Unit>> Handle(RemoveExpense request, CancellationToken cancellationToken)
+        public async Task<RequestResult<double>> Handle(RemoveExpense request, CancellationToken cancellationToken)
         {
-            var result = new RequestResult<Unit>();
+            var result = new RequestResult<double>();
 
             var expense = ExpenseRepository
-                .GetById(request.ExpenseId);
+                .GetAllWithUsers()
+                .FirstOrDefault(e => e.Id == request.ExpenseId);
 
             if (expense is null)
             {
@@ -29,10 +33,21 @@ namespace Wallet.Application.Features.Expenses.Commands.RemoveExpense
                 return result;
             }
 
+            if (expense.User is null)
+            {
+                result.AddError($"Expense is not related to any user", HttpStatusCode.NotFound);
+                return result;
+            }
+
+            var user = UserRepository.GetById(expense.User.Id);
+
+            user.BalanceValue += expense.Value;
+
             ExpenseRepository.Remove(request.ExpenseId);
+            UserRepository.Update(user);
             ExpenseRepository.SaveChanges();
 
-            result.SetSingleItem(new Unit());
+            result.SetSingleItem(user.BalanceValue);
 
             return result;
         }

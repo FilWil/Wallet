@@ -10,10 +10,12 @@ namespace Wallet.Application.Features.Incomes.Commands.RemoveIncome
     public class RemoveIncomeHandler : IRequestHandler<RemoveIncome, RequestResult<Unit>>
     {
         private readonly IIncomeRepository IncomeRepository;
-        
-        public RemoveIncomeHandler(IIncomeRepository incomeRepository)
+        private readonly IUserRepository UserRepository;
+
+        public RemoveIncomeHandler(IIncomeRepository incomeRepository, IUserRepository userRepository)
         {
             IncomeRepository = incomeRepository;
+            UserRepository = userRepository;
         }
         
         public async Task<RequestResult<Unit>> Handle(RemoveIncome request, CancellationToken cancellationToken)
@@ -29,7 +31,18 @@ namespace Wallet.Application.Features.Incomes.Commands.RemoveIncome
                 return result;
             }
 
+            if (expense.User is null)
+            {
+                result.AddError($"Expense is not related to any user", HttpStatusCode.NotFound);
+                return result;
+            }
+
+            var user = UserRepository.GetById(expense.User.Id);
+
+            user.BalanceValue -= expense.Value;
+
             IncomeRepository.Remove(request.IncomeId);
+            UserRepository.Update(user);
             IncomeRepository.SaveChanges();
 
             result.SetSingleItem(new Unit());
