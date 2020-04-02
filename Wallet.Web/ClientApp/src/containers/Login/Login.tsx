@@ -118,7 +118,7 @@ const Login: React.FC<LoginProps> = ({
 
 const mapStateToProps = (state: ApplicationState) => ({
     isAuthenticated: state.auth.isAuthenticated,
-    status: state.auth.status
+    status: state.auth.status,
 });
 
 export default connect(mapStateToProps, actionCreators)(Login);

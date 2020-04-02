@@ -1,13 +1,15 @@
 import { FunctionReturnTypes, ReduxAction } from "../";
 import { actionCreators } from "./actions";
 import {ActionType, AuthStatusEnum, IAuthState} from "./types";
+import {IUserState} from "../user";
 
 const initialState = Object.freeze<IAuthState>({
     token: '',
     tokenExpirationTime: 0,
     isAuthenticated: undefined,
     isRegistered: undefined,
-    status: AuthStatusEnum.NONE
+    status: AuthStatusEnum.NONE,
+    id: ''
 });
 
 export const reducer = (
@@ -15,7 +17,6 @@ export const reducer = (
     incomingAction: FunctionReturnTypes<typeof actionCreators>,
 ) => {
     const action = incomingAction as ReduxAction;
-
     switch (action.type) {
         case ActionType.LOGIN:
             return state;
@@ -23,7 +24,7 @@ export const reducer = (
             return {
                 ...action.authData,
                 isAuthenticated: action.authData.item.isAuthenticated,
-                status: action.status
+                status: action.status,
             };
         case ActionType.LOGOUT:
         case ActionType.LOGIN_FAIL:

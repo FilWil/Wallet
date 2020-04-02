@@ -38,7 +38,7 @@ namespace Wallet.Application.Features.Expenses.Commands.AddExpense
                 return result;
             }
 
-            user.BalanceValue -= request.Value;
+            user.BalanceValue -= Math.Round(request.Value, 2);
 
             UserRepository.Update(user);
 
@@ -47,7 +47,7 @@ namespace Wallet.Application.Features.Expenses.Commands.AddExpense
                 Id = Guid.NewGuid().ToString(),
                 CreatedAt = DateTime.UtcNow,
                 Name = request.Name,
-                Value = request.Value,
+                Value = Math.Round(request.Value, 2),
                 User = user
             };
 

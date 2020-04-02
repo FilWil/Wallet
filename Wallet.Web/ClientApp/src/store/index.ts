@@ -1,4 +1,5 @@
 import { reducer as AuthReducer } from './auth';
+import { reducer  as UserReducer } from './user';
 import { RouterState } from "connected-react-router";
 import { configureStore } from './configureStore';
 import { createRootReducer } from './rootReducer';
@@ -7,6 +8,7 @@ import { createRootReducer } from './rootReducer';
 export interface ApplicationState {
     readonly router: RouterState;
     readonly auth: ReturnType<typeof AuthReducer>;
+    readonly user: ReturnType<typeof UserReducer>;
 }
 
 // Type for all redux actions - takes the action type and then an optional, variable amount of additional key-value pairs

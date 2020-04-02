@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using Wallet.Application.Features.Expenses.Dtos;
 using Wallet.Application.Features.Goals.Dtos;
 using Wallet.Application.Features.Incomes.Dtos;
@@ -22,7 +23,7 @@ namespace Wallet.Application.AutoMapper
 
         private static void CreateMapper(IMapperConfigurationExpression config)
         {
-            config.CreateMap<User, UserDto>();
+            config.CreateMap<User, UserDto>().ForMember(r => r.BalanceValue, o => o.MapFrom(r => Math.Round(r.BalanceValue, 2)));
             config.CreateMap<AuthenticationData, AuthenticationDataDto>();
 
             config.CreateMap<Expense, ExpenseDto>();

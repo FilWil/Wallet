@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -39,7 +40,7 @@ namespace Wallet.Application.Features.Incomes.Commands.RemoveIncome
 
             var user = UserRepository.GetById(expense.User.Id);
 
-            user.BalanceValue -= expense.Value;
+            user.BalanceValue -= Math.Round(expense.Value, 2);
 
             IncomeRepository.Remove(request.IncomeId);
             UserRepository.Update(user);

@@ -29,6 +29,7 @@ export type IAuthData  = {
         token?: string;
         tokenExpirationTime?: number;
         isAuthenticated?: boolean;
+        id?: string;
     }
 };
 
@@ -48,6 +49,7 @@ export type IAuthState = {
     readonly isAuthenticated?: boolean;
     readonly isRegistered?: boolean;
     readonly status?: AuthStatus;
+    readonly id?: string;
 };
 
 const _namespace = 'auth';

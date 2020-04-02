@@ -15,6 +15,7 @@ export const actionCreators = {
             .then((authData: IAuthData ) => {
                 if (!!authData.item.isAuthenticated) {
                     sessionStorage.setItem("token", authData.item.token);
+                    sessionStorage.setItem("userId", authData.item.id);
                     sessionStorage.setItem("isAuthenticated", authData.item.isAuthenticated.toString());
                     dispatch({
                         authData,

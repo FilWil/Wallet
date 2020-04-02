@@ -38,6 +38,8 @@ namespace Wallet.Application.Features.Users.Queries.GetUser
                 return result;
             }
 
+            user.BalanceValue = Math.Round(user.BalanceValue, 2);
+
             result.SetSingleItem(Mapper.Map<UserDto>(user));
 
             return result;

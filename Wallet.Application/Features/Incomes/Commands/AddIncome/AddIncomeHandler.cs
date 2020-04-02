@@ -37,8 +37,8 @@ namespace Wallet.Application.Features.Incomes.Commands.AddIncome
                 return result;
             }
 
-            user.BalanceValue += request.Value;
-            
+            user.BalanceValue += Math.Round(request.Value, 2);
+
             UserRepository.Update(user);
 
             var income = new Income()
@@ -46,7 +46,7 @@ namespace Wallet.Application.Features.Incomes.Commands.AddIncome
                 Id = Guid.NewGuid().ToString(),
                 CreatedAt = DateTime.UtcNow,
                 Name = request.Name,
-                Value = request.Value,
+                Value = Math.Round(request.Value, 2),
                 User = user
             };
 
