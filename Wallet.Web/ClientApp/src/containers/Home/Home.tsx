@@ -40,12 +40,12 @@ const Home: React.FC<HomeProps> = ({
         //Get User Balance dispatch action -> display balance
     });
     return (
-        <div  style={{ width: 400, margin: '100px auto' }}>
-            <h1>Balance</h1>
-            <Card title={'Total balance'}>
-                <div>
-                    <div>{balanceValue}</div>
-                    <Button type='primary'>Add goal</Button>
+        <div >
+            <h1 className='home-header'>Savings</h1>
+            <Card style={{ width: 400, marginLeft: '75px' }} title={'Total balance'}>
+                <div className='balance-container'>
+                    <div className='balance-value'>{balanceValue} PLN</div>
+                    <Button className='goal-button' type='primary'>Add goal</Button>
                 </div>
             </Card>
         </div>
