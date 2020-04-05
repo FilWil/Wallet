@@ -3,7 +3,6 @@ import {Goal} from "../models/Goal";
 
 class GoalService extends BaseService {
     private static _goalService: GoalService;
-    private userId = sessionStorage.getItem("userId");
 
     private constructor(controllerName: string) {
         super(controllerName);
@@ -13,13 +12,13 @@ class GoalService extends BaseService {
         return (this._goalService || (this._goalService = new this("goals")));
     }
 
-    public async postUserGoalAsync(goal: Goal): Promise<Goal> {
+    public async postUserGoalAsync(goal: Goal): Promise<any> {
         const { data } = await this.$http
             .post<Goal>("",
                 {
                     name: goal.name,
                     targetValue: +goal.targetValue,
-                    userId: this.userId
+                    userId: sessionStorage.getItem("userId")
                 }
             );
         return data;

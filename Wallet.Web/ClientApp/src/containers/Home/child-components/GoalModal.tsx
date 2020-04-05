@@ -34,7 +34,6 @@ const GoalModal: React.FC<GoalModalProps> = ({
                             toast.success(
                                 renderToastifyMsg('Goal successfully created')
                             );
-
                             console.log(response);
                         });
                     handleClose();

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,11 +30,18 @@ namespace Wallet.Application.Features.Goals.Commands.AddGoal
             var result = new RequestResult<GoalDto>();
 
             var user = UserRepository
-                .GetById(request.UserId);
+                .GetAllWithCollections()
+                .FirstOrDefault(u => u.Id == request.UserId);
 
             if (user is null)
             {
                 result.AddError($"User with id {request.UserId} was not found", HttpStatusCode.NotFound);
+                return result;
+            }
+
+            if (user.Goals.Count >= 3)
+            {
+                result.AddError("User already have maximum (3) goals, remove other to make storage", HttpStatusCode.Forbidden);
                 return result;
             }
 

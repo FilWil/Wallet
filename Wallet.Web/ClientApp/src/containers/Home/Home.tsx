@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import 'antd/dist/antd.css'
-import { Card, Button, Spin, Row, Modal } from 'antd';
+import { Card, Button, Spin, Row, Modal, Progress } from 'antd';
 import BalanceChart from "./child-components/BalanceChart";
 import { LoadingOutlined } from '@ant-design/icons';
 import {UserApi} from "../../api/user.service";
@@ -75,7 +75,23 @@ export class Home extends Component<HomeProps, HomeState> {
                </Row>
                 <Row>
                     <Card style={{width: 875, marginLeft: '75px', marginTop: '40px'}} title={'Goals'}>
-
+                        <div className={'goals-container'}>
+                            <div className={'goal'}>
+                                <Progress type="circle" percent={66} />
+                                <div className='goal__name'>MacbookPro</div>
+                                <div className='goal__value'>1875 of 2500 PLN</div>
+                            </div>
+                            <div className={'goal'}>
+                                <Progress type="circle" percent={66} />
+                                <div className='goal__name'>MacbookPro</div>
+                                <div className='goal__value'>1875 of 2500 PLN</div>
+                            </div>
+                            <div className={'goal'}>
+                                <Progress type="circle" percent={66} />
+                                <div className='goal__name'>MacbookPro</div>
+                                <div className='goal__value'>1875 of 2500 PLN</div>
+                            </div>
+                        </div>
                     </Card>
                 </Row>
                <GoalModal showModal={this.state.showGoalCreationModal} handleClose={this.closeModal} onCreate={null}/>
