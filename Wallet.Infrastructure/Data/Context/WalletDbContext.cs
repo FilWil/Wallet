@@ -9,6 +9,7 @@ namespace Wallet.Infrastructure.Data.Context
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Income> Incomes { get; set; }
         public DbSet<Goal> Goals { get; set; }
+        public DbSet<HistoricalBalance> HistoricalBalances { get; set; }
 
         public WalletDbContext(DbContextOptions<WalletDbContext> options) : base(options)
         {

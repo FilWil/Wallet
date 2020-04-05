@@ -10,6 +10,7 @@ namespace Wallet.Domain.Entities
         public string Password { get; set; }
 
         public double BalanceValue { get; set; }
+        public ICollection<HistoricalBalance> HistoricalBalances { get; set; }
 
         public ICollection<Expense> Expenses { get; set; }
         public ICollection<Income> Incomes { get; set; }

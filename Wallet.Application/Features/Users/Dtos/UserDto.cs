@@ -11,6 +11,7 @@ namespace Wallet.Application.Features.Users.Dtos
         public string Email { get; set; }
 
         public double BalanceValue { get; set; }
+        public ICollection<HistoricalBalanceDto> HistoricalBalances { get; set; }
 
         public ICollection<ExpenseDto> Expenses { get; set; }
         public ICollection<IncomeDto> Incomes { get; set; }

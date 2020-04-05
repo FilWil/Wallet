@@ -5,9 +5,8 @@ import { ApplicationState } from "../../store";
 import { actionCreators, reducer } from "../../store/auth";
 import axios from 'axios';
 import 'antd/dist/antd.css'
-import { Layout, Menu, Card, Button } from 'antd';
-
-const { Header, Footer, Sider, Content } = Layout;
+import { Card, Button, Spin } from 'antd';
+import BalanceChart from "./child-components/BalanceChart";
 
 type HomeProps = ReturnType<typeof reducer>
     & typeof actionCreators
@@ -15,39 +14,50 @@ type HomeProps = ReturnType<typeof reducer>
 
 const Home: React.FC<HomeProps> = ({
                                          id,
+                                         historicalBalanceValues
                                      }) => {
-    const [balanceValue, setBalanceValue] = React.useState([
+    const [balanceValue, setBalanceValue] = React.useState([]);
 
-    ]);
-    const getUserRequest = () => {
-        return axios({
+    const getUserRequest = async () => {
+        let response = await axios({
             url: `https://localhost:44340/api/users/${id}`,
             method: 'get'
-    }).then(response => {
-            return response.data;
-    })
+        });
+        return response.data;
     };
 
     useEffect(() => {
         id = sessionStorage.getItem("userId");
-        console.log(id);
-            getUserRequest()
-                .then(data => {
-                    setBalanceValue(data.item.balanceValue);
-                    console.log(data.item);
-                    console.log(balanceValue);
-                });
-        //Get User Balance dispatch action -> display balance
-    });
+        getUserRequest()
+            .then(data => {
+                setBalanceValue(data.item.balanceValue);
+
+                if (!!data.item.historicalBalances){
+                    historicalBalanceValues = data.item.historicalBalances.map(r => r.balanceValue);
+                    console.log(historicalBalanceValues);
+                }
+            });
+    }, [historicalBalanceValues]);
+
     return (
         <div >
             <h1 className='home-header'>Savings</h1>
-            <Card style={{ width: 400, marginLeft: '75px' }} title={'Total balance'}>
-                <div className='balance-container'>
-                    <div className='balance-value'>{balanceValue} PLN</div>
-                    <Button className='goal-button' type='primary'>Add goal</Button>
-                </div>
-            </Card>
+            <div className='card-container'>
+                <Card style={{ width: 400, marginLeft: '75px' }} title={'Total balance'}>
+                    <div className='balance-container'>
+                        <div className='balance-value'>{balanceValue} PLN</div>
+                        <Button className='goal-button' type='primary' shape='round'>Add goal</Button>
+                    </div>
+                </Card>
+                <Card style={{ width: 400, marginLeft: '75px'}} title={'Balance trend'}>
+                    {
+                        !!historicalBalanceValues ?
+                            <BalanceChart chartData={[...historicalBalanceValues]}></BalanceChart> : <Spin/>
+                    }
+                </Card>
+
+                { (historicalBalanceValues !== null && historicalBalanceValues !== undefined)}
+            </div>
         </div>
     );
 };

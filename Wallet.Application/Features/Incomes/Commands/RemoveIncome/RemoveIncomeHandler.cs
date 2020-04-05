@@ -1,9 +1,11 @@
 ﻿using MediatR;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Wallet.Domain.Core.Results;
+using Wallet.Domain.Entities;
 using Wallet.Domain.Interfaces;
 
 namespace Wallet.Application.Features.Incomes.Commands.RemoveIncome
@@ -41,6 +43,15 @@ namespace Wallet.Application.Features.Incomes.Commands.RemoveIncome
             var user = UserRepository.GetById(expense.User.Id);
 
             user.BalanceValue -= Math.Round(expense.Value, 2);
+
+            user.HistoricalBalances ??= new List<HistoricalBalance>();
+
+            user.HistoricalBalances.Add(new HistoricalBalance()
+            {
+                Id = Guid.NewGuid().ToString(),
+                BalanceValue = user.BalanceValue,
+                CreatedAt = DateTime.UtcNow
+            });
 
             IncomeRepository.Remove(request.IncomeId);
             UserRepository.Update(user);

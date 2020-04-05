@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import {Navbar} from "./components";
 
 import { Layout as AntLayout } from 'antd';
-const { Header, Footer, Sider, Content } = AntLayout;
+const { Header, Footer, Content } = AntLayout;
 const auth = sessionStorage.getItem('isAuthenticated');
 
 const Layout: React.FC = ({ children }) => (

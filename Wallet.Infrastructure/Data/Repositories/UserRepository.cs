@@ -15,7 +15,8 @@ namespace Wallet.Infrastructure.Data.Repositories
             return GetAll()
                 .Include(u => u.Incomes)
                 .Include(u => u.Expenses)
-                .Include(u => u.Goals);
+                .Include(u => u.Goals)
+                .Include(u => u.HistoricalBalances);
         }
     }
 }

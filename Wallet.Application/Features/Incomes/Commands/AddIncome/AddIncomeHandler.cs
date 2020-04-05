@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,6 +39,15 @@ namespace Wallet.Application.Features.Incomes.Commands.AddIncome
             }
 
             user.BalanceValue += Math.Round(request.Value, 2);
+
+            user.HistoricalBalances ??= new List<HistoricalBalance>();
+
+            user.HistoricalBalances.Add(new HistoricalBalance()
+            {
+                BalanceValue = user.BalanceValue,
+                Id = Guid.NewGuid().ToString(),
+                CreatedAt = DateTime.UtcNow
+            });
 
             UserRepository.Update(user);
 

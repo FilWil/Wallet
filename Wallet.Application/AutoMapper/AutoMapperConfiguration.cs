@@ -23,12 +23,17 @@ namespace Wallet.Application.AutoMapper
 
         private static void CreateMapper(IMapperConfigurationExpression config)
         {
-            config.CreateMap<User, UserDto>().ForMember(r => r.BalanceValue, o => o.MapFrom(r => Math.Round(r.BalanceValue, 2)));
+            config.CreateMap<User, UserDto>()
+                .ForMember(r => r.BalanceValue, o => o.MapFrom(r => Math.Round(r.BalanceValue, 2)));
+
             config.CreateMap<AuthenticationData, AuthenticationDataDto>();
 
             config.CreateMap<Expense, ExpenseDto>();
             config.CreateMap<Income, IncomeDto>();
             config.CreateMap<Goal, GoalDto>();
+
+            config.CreateMap<HistoricalBalance, HistoricalBalanceDto>()
+                .ForMember(r => r.BalanceValue, o => o.MapFrom(r => Math.Round(r.BalanceValue, 2)));
         }
     }
 }
