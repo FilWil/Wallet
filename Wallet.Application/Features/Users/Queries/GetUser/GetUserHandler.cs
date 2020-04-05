@@ -40,6 +40,11 @@ namespace Wallet.Application.Features.Users.Queries.GetUser
 
             user.BalanceValue = Math.Round(user.BalanceValue, 2);
 
+            user.HistoricalBalances = user
+                .HistoricalBalances
+                .OrderBy(r => r.CreatedAt)
+                .ToList();
+
             result.SetSingleItem(Mapper.Map<UserDto>(user));
 
             return result;

@@ -1,68 +1,79 @@
-import React, { useEffect, useState } from "react";
-import { History } from "history";
-import { connect } from "react-redux";
-import { ApplicationState } from "../../store";
-import { actionCreators, reducer } from "../../store/auth";
-import axios from 'axios';
+import React, { Component } from "react";
 import 'antd/dist/antd.css'
-import { Card, Button, Spin } from 'antd';
+import { Card, Button, Spin, Row } from 'antd';
 import BalanceChart from "./child-components/BalanceChart";
+import { LoadingOutlined } from '@ant-design/icons';
+import {UserApi} from "../../api/user.service";
+import {Goal} from "../../models/Goal";
 
-type HomeProps = ReturnType<typeof reducer>
-    & typeof actionCreators
-    & { readonly history: History };
+interface HomeState {
+    balanceValue: number,
+    isLoading: boolean,
+    historicalBalanceValues: number[],
+    goals: Goal[]
+}
 
-const Home: React.FC<HomeProps> = ({
-                                         id,
-                                         historicalBalanceValues
-                                     }) => {
-    const [balanceValue, setBalanceValue] = React.useState([]);
+interface HomeProps {
 
-    const getUserRequest = async () => {
-        let response = await axios({
-            url: `https://localhost:44340/api/users/${id}`,
-            method: 'get'
-        });
-        return response.data;
-    };
+}
 
-    useEffect(() => {
-        id = sessionStorage.getItem("userId");
-        getUserRequest()
-            .then(data => {
-                setBalanceValue(data.item.balanceValue);
+export class Home extends Component<HomeProps, HomeState> {
 
-                if (!!data.item.historicalBalances){
-                    historicalBalanceValues = data.item.historicalBalances.map(r => r.balanceValue);
-                    console.log(historicalBalanceValues);
-                }
+    constructor(props) {
+        super(props);
+        this.state = {
+            balanceValue: 0,
+            isLoading: true,
+            historicalBalanceValues: [],
+            goals: []
+        };
+    }
+
+    componentDidMount() {
+        UserApi.getUserAsync()
+            .then(user => {
+                this.setState({
+                    balanceValue: user.balanceValue,
+                    historicalBalanceValues: user.historicalBalances.map(r => r.balanceValue),
+                    goals: user.goals.map((goal) => ({name: goal.name, targetValue: goal.targetValue})),
+                    isLoading: false
+                });
+                console.log(this.state.goals)
             });
-    }, [historicalBalanceValues]);
+    }
 
-    return (
-        <div >
-            <h1 className='home-header'>Savings</h1>
-            <div className='card-container'>
-                <Card style={{ width: 400, marginLeft: '75px' }} title={'Total balance'}>
-                    <div className='balance-container'>
-                        <div className='balance-value'>{balanceValue} PLN</div>
-                        <Button className='goal-button' type='primary' shape='round'>Add goal</Button>
-                    </div>
-                </Card>
-                <Card style={{ width: 400, marginLeft: '75px'}} title={'Balance trend'}>
-                    {
-                        !!historicalBalanceValues ?
-                            <BalanceChart chartData={[...historicalBalanceValues]}></BalanceChart> : <Spin/>
-                    }
-                </Card>
+    render() {
+        const antIcon = <LoadingOutlined style={{ fontSize: 48, color: '#09d3ac' }} spin />;
+        if (this.state.isLoading) {
+            return (
+                <div className={'preloader-container'}>
+                    <Spin indicator={antIcon} style={{margin: 'auto'}}/>
+                </div>
+            );
+        }
+       return (
+           <div>
+               <h1 className='home-header'>Savings</h1>
+               <Row>
+                   <Card style={{ width: 400, marginLeft: '75px' }} title={'Total balance'}>
+                       <div className='balance-container'>
+                           <div className='balance-value'>{this.state.balanceValue} PLN</div>
+                           <Button className='goal-button' type='primary' shape='round'>Add goal</Button>
+                       </div>
+                   </Card>
+                   <Card style={{ width: 400, marginLeft: '75px'}} title={'Balance trend'}>
+                       <BalanceChart historicalBalanceValues={this.state.historicalBalanceValues}/>
+                   </Card>
+               </Row>
+                <Row>
+                    <Card style={{width: 875, marginLeft: '75px', marginTop: '40px'}} title={'Goals'}>
 
-                { (historicalBalanceValues !== null && historicalBalanceValues !== undefined)}
-            </div>
-        </div>
-    );
-};
-const mapStateToProps = (state: ApplicationState) => ({
-    id: state.auth.id
-});
+                    </Card>
+                </Row>
 
-export default connect(mapStateToProps, actionCreators)(Home);
+           </div>
+       )
+    }
+}
+
+export default Home;

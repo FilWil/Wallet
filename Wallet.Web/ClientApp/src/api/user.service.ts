@@ -1,6 +1,6 @@
-import { AxiosResponse } from "axios";
 import { BaseService } from "./base.service";
-import {IUser} from "../store/user";
+import axios from 'axios';
+import {User} from "../models/User";
 
 class UserService extends BaseService {
     private static _userService: UserService;
@@ -13,9 +13,9 @@ class UserService extends BaseService {
         return (this._userService || (this._userService = new this("users")));
     }
 
-    public async getUserAsync(id: string): Promise<IUser> {
-        const { data } = await this.$http.get(`${id}`);
-        return data;
+    public async getUserAsync(): Promise<User> {
+        const { data } = await this.$http.get(`${sessionStorage.getItem("userId")}`);
+        return data.item;
     }
 }
 

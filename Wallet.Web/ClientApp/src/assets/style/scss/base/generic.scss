@@ -265,3 +265,12 @@ code {
   }
 }
 
+.preloader-container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}
+
+.preloader {
+  margin: auto 0;
+}
