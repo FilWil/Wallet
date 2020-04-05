@@ -34,6 +34,9 @@ export class Home extends Component<HomeProps, HomeState> {
 
     showModal = () => this.setState({showGoalCreationModal: true});
     closeModal = () => this.setState({showGoalCreationModal: false});
+    calculateGoalAccomplishment = (goalTargetValue: number) : number => {
+        return Math.round((this.state.balanceValue / goalTargetValue) * 100);
+    }
 
     componentDidMount() {
         UserApi.getUserAsync()
@@ -41,7 +44,7 @@ export class Home extends Component<HomeProps, HomeState> {
                 this.setState({
                     balanceValue: user.balanceValue,
                     historicalBalanceValues: user.historicalBalances.map(r => r.balanceValue),
-                    goals: user.goals.map((goal) => ({name: goal.name, targetValue: goal.targetValue})),
+                    goals: user.goals.map((goal) => ({name: goal.name, targetValue: goal.targetValue, id: goal.id})),
                     isLoading: false
                 });
                 console.log(this.state.goals)
@@ -76,21 +79,17 @@ export class Home extends Component<HomeProps, HomeState> {
                 <Row>
                     <Card style={{width: 875, marginLeft: '75px', marginTop: '40px'}} title={'Goals'}>
                         <div className={'goals-container'}>
-                            <div className={'goal'}>
-                                <Progress type="circle" percent={66} />
-                                <div className='goal__name'>MacbookPro</div>
-                                <div className='goal__value'>1875 of 2500 PLN</div>
-                            </div>
-                            <div className={'goal'}>
-                                <Progress type="circle" percent={66} />
-                                <div className='goal__name'>MacbookPro</div>
-                                <div className='goal__value'>1875 of 2500 PLN</div>
-                            </div>
-                            <div className={'goal'}>
-                                <Progress type="circle" percent={66} />
-                                <div className='goal__name'>MacbookPro</div>
-                                <div className='goal__value'>1875 of 2500 PLN</div>
-                            </div>
+                            {
+                                this.state.goals.map((goal: Goal, index: number) => {
+                                    return (
+                                        <div key={index} className={'goal'}>
+                                            <Progress type="circle" percent={this.calculateGoalAccomplishment(goal.targetValue)} />
+                                            <div className='goal__name'>{goal.name}</div>
+                                            <div className='goal__value'>{this.state.balanceValue} of {goal.targetValue} PLN</div>
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
                     </Card>
                 </Row>
