@@ -1,5 +1,4 @@
 import { BaseService } from "./base.service";
-import axios from 'axios';
 import {User} from "../models/User";
 
 class UserService extends BaseService {
