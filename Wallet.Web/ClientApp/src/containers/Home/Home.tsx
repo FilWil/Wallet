@@ -78,7 +78,7 @@ export class Home extends Component<HomeProps, HomeState> {
 
                     </Card>
                 </Row>
-               <GoalModal showModal={this.state.showGoalCreationModal} handleClose={this.closeModal}/>
+               <GoalModal showModal={this.state.showGoalCreationModal} handleClose={this.closeModal} onCreate={null}/>
            </div>
        )
     }

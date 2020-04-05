@@ -1,5 +1,6 @@
 import { BaseService } from "./base.service";
 import {User} from "../models/User";
+import {Goal} from "../models/Goal";
 
 class UserService extends BaseService {
     private static _userService: UserService;
