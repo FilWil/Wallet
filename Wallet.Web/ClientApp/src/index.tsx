@@ -14,6 +14,7 @@ import { ToastContainer, ToastPosition } from 'react-toastify';
 import { configureAxiosInterceptors } from './config/axios.config';
 import './config/fa.config';
 import * as serviceWorker from './serviceWorker';
+import WebFont from 'webfontloader';
 
 // Execute any base Axios configurations (e.g. request interceptors)
 configureAxiosInterceptors();

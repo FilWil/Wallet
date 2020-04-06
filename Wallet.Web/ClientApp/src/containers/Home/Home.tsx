@@ -67,7 +67,7 @@ export class Home extends Component<HomeProps, HomeState> {
                    <Card style={{ width: 400, marginLeft: '75px' }} title={'Total balance'}>
                        <div className='balance-container'>
                            <div className='balance-value'>{this.state.balanceValue} PLN</div>
-                           <Button className='goal-button' type='primary' shape='round' onClick={this.showModal}>
+                           <Button className='custom-primary-button' type='primary' shape='round' onClick={this.showModal}>
                                Add goal
                            </Button>
                        </div>
@@ -83,7 +83,7 @@ export class Home extends Component<HomeProps, HomeState> {
                                 this.state.goals.map((goal: Goal, index: number) => {
                                     return (
                                         <div key={index} className={'goal'}>
-                                            <Progress type="circle" percent={this.calculateGoalAccomplishment(goal.targetValue)} />
+                                            <Progress type="circle" strokeColor='#09d3ac' percent={this.calculateGoalAccomplishment(goal.targetValue)} />
                                             <div className='goal__name'>{goal.name}</div>
                                             <div className='goal__value'>{this.state.balanceValue} of {goal.targetValue} PLN</div>
                                         </div>

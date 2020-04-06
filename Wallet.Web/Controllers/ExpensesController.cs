@@ -19,7 +19,7 @@ namespace Wallet.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetExpenses ()
+        public async Task<IActionResult> GetExpenses()
         {
             var query = new GetExpenses();
             var result = await Mediator.Send(query);

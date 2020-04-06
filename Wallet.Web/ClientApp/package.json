@@ -111,10 +111,12 @@
     "chart.js": "^2.9.3",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
+    "moment": "^2.24.0",
     "node-sass": "^4.13.1",
     "react-chartjs-2": "^2.9.0",
     "react-hot-loader": "^4.12.19",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "webfontloader": "^1.6.28"
   },
   "jest": {
     "roots": [

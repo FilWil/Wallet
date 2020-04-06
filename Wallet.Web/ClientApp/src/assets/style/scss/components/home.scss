@@ -1,3 +1,5 @@
+@import '../base/variables.scss';
+
 .balance-container {
   font-size: 36px;
   display: grid;
@@ -19,6 +21,21 @@
 
 .balance-value {
   margin-bottom: 25px;
+}
+
+.goal-button.ant-btn {
+  background-color: $cyan;
+  border-color: $cyan;
+
+  &:hover {
+    border-color: #1ae4bd;
+    background-color: #1ae4bd;
+  }
+
+  &:focus {
+    border-color: #1ae4bd;
+    background-color: #1ae4bd;
+  }
 }
 
 .goals-container {

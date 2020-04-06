@@ -22,3 +22,27 @@
 .ant-menu-item > a {
   margin-left: 40px;
 }
+
+.sider-menu-item.ant-menu-item > a {
+  &:focus, &:hover, &:active {
+    color: $cyan;
+  }
+}
+
+.sider-menu-item.ant-menu-item {
+  &:focus, &:active {
+    background-color: aquamarine;
+  }
+}
+
+ .sider-menu-item.ant-menu-item-selected  {
+   &:focus, &:hover, &:active {
+     color: $cyan;
+   }
+ }
+
+.sider-menu-item.ant-menu-item-selected > a {
+  &:focus,  &:active {
+    background-color: aquamarine;
+  }
+}

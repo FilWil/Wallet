@@ -42,7 +42,21 @@ namespace Wallet.Application.Features.Users.Queries.GetUser
 
             user.HistoricalBalances = user
                 .HistoricalBalances
-                .OrderBy(r => r.CreatedAt)
+                .ToList();
+
+            user.Expenses = user
+                .Expenses
+                .OrderByDescending(r => r.CreatedAt)
+                .ToList();
+
+            user.Incomes = user
+                .Incomes
+                .OrderByDescending(r => r.CreatedAt)
+                .ToList();
+
+            user.Goals = user
+                .Goals
+                .OrderByDescending(r => r.CreatedAt)
                 .ToList();
 
             result.SetSingleItem(Mapper.Map<UserDto>(user));

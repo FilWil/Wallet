@@ -2,12 +2,12 @@
 .Toastify__toast {
   border-radius: $rt-toast-border-radius;
 }
-
 /* OVERRIDES & GENERAL STYLES */
 html,
 body {
   background-color: $color-body-bg;
 }
+
 .login-box__logo {
   padding-bottom: 20px;
 }
@@ -45,7 +45,6 @@ code {
   border-radius: 0.25rem;
   color: $color-hero-is-dark;
   background-color: rgba(9, 211, 172, 0.13);
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 .hero.is-dark {
@@ -273,4 +272,31 @@ code {
 
 .preloader {
   margin: auto 0;
+}
+
+.modal-primary-button.ant-btn, .custom-primary-button.ant-btn {
+  background-color: $cyan;
+  border-color: $cyan;
+
+  &:hover {
+    border-color: #1ae4bd;
+    background-color: #1ae4bd;
+  }
+
+  &:focus {
+    border-color: #1ae4bd;
+    background-color: #1ae4bd;
+  }
+}
+
+.modal-secondary-button.ant-btn {
+  &:hover {
+    border-color: #1ae4bd;
+    color: #1ae4bd;
+  }
+
+  &:focus {
+    border-color: #1ae4bd;
+    color: #1ae4bd;
+  }
 }

@@ -11,7 +11,6 @@ const Layout: React.FC = ({ children }) => (
             <Content style={{ backgroundColor: 'white' }}>
                 <Header style={{ backgroundColor: 'white' }}></Header>
                 {children}
-                <Footer style={{ backgroundColor: 'white' }}></Footer>
             </Content>
     </AntLayout>
 );

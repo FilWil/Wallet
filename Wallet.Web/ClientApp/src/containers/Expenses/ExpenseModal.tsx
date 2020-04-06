@@ -1,9 +1,9 @@
 import React from 'react';
 import { Modal, Form, Input, Button } from 'antd';
-import {GoalApi} from "../../../api/goal.service";
-import {Goal} from "../../../models/Goal";
 import { toast } from 'react-toastify';
-import {renderToastifyMsg} from "../../../utils";
+import {renderToastifyMsg} from "../../utils";
+import {ExpenseApi} from "../../api/expense.service";
+import {Expense} from "../../models/Expense";
 
 interface Values {
     title: string;
@@ -11,28 +11,28 @@ interface Values {
     modifier: string;
 }
 
-interface GoalModalProps {
+interface ExpenseModalProps {
     showModal: boolean
     handleClose,
     onCreate: (values: Values) => void;
 }
 
-const GoalModal: React.FC<GoalModalProps> = ({
+const ExpenseModal: React.FC<ExpenseModalProps> = ({
                                                  showModal,
                                                  handleClose
-}) => {
+                                             }) => {
     const [form] = Form.useForm();
 
     function handleOk(){
         {
             form
                 .validateFields()
-                .then((values: Goal) => {
+                .then((values: Expense) => {
                     form.resetFields();
-                    GoalApi.postUserGoalAsync(values)
+                    ExpenseApi.postUserExpenseAsync(values)
                         .then((response) => {
                             toast.success(
-                                renderToastifyMsg('Goal successfully created')
+                                renderToastifyMsg('Expense successfully created')
                             );
                             console.log(response);
                         });
@@ -48,7 +48,7 @@ const GoalModal: React.FC<GoalModalProps> = ({
 
     return (
         <Modal
-            title="Add goal"
+            title="Add expense"
             visible={showModal}
             onCancel={handleClose}
             onOk={handleOk}
@@ -59,19 +59,19 @@ const GoalModal: React.FC<GoalModalProps> = ({
         >
             <Form
                 form={form}
-                name="goalForm"
+                name="expenseForm"
             >
                 <Form.Item
                     label="Name"
                     name="name"
-                    rules={[{required: true, message: 'Please input goal name!'}]}
+                    rules={[{required: true, message: 'Please input expense name!'}]}
                 >
                     <Input type="text"/>
                 </Form.Item>
                 <Form.Item
-                    label="TargetValue"
-                    name="targetValue"
-                    rules={[{required: true, message: 'Please input goal value in PLN!'}]}
+                    label="Value"
+                    name="value"
+                    rules={[{required: true, message: 'Please input expense value in PLN!'}]}
                 >
                     <Input type="number"/>
                 </Form.Item>
@@ -79,4 +79,4 @@ const GoalModal: React.FC<GoalModalProps> = ({
         </Modal>
     )
 };
-export default GoalModal;
+export default ExpenseModal;
