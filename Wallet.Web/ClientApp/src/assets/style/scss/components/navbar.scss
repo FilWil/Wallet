@@ -29,10 +29,8 @@
   }
 }
 
-.sider-menu-item.ant-menu-item {
-  &:focus, &:active {
-    background-color: aquamarine;
-  }
+.sider-menu-item.ant-menu-item.ant-menu-item-active.ant-menu-item-selected {
+  background: #41f1b833;
 }
 
  .sider-menu-item.ant-menu-item-selected  {
@@ -40,9 +38,3 @@
      color: $cyan;
    }
  }
-
-.sider-menu-item.ant-menu-item-selected > a {
-  &:focus,  &:active {
-    background-color: aquamarine;
-  }
-}

@@ -5,6 +5,7 @@ import { RoutesConfig } from "./config/routes.config";
 import {Login, Register} from "./containers/Login";
 import {Home} from "./containers/Home";
 import {Expenses} from "./containers/Expenses";
+import {Incomes} from "./containers/Incomes";
 
 export const routes: ReactNode = (
     <Layout>
@@ -13,7 +14,7 @@ export const routes: ReactNode = (
             <Route exact path={RoutesConfig.Register.path} component={Register}/>
             <Route exact path={RoutesConfig.Home.path} component={Home}/>
             <Route exact path={RoutesConfig.Expenses.path} component={Expenses}/>
-            <Route exact path={RoutesConfig.Incomes.path} component={Register}/>
+            <Route exact path={RoutesConfig.Incomes.path} component={Incomes}/>
         </Switch>
     </Layout>
 );
