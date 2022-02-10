@@ -112,7 +112,7 @@
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "moment": "^2.24.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "react-chartjs-2": "^2.9.0",
     "react-hot-loader": "^4.12.19",
     "typescript": "^3.8.3",
